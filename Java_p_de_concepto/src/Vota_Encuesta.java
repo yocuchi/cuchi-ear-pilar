@@ -21,14 +21,15 @@ public class Vota_Encuesta {
      */
 	public static void main(String args[]){
 		
-		for (int i=0; i<10;i++){
+		for (int i=0; i<100;i++){
 			
-			vota();
+			//vota("6eba9qvllnnt7cc8adf7mgqf80");
+			vota("6eba9qvllnnt7cc8adf7mgq"+i);
 		}
 		
 	}
 	
-    public static void vota() {
+    public static void vota( String token) {
         
 
         URL url = null;
@@ -85,7 +86,7 @@ public class Vota_Encuesta {
           "field1=" + URLEncoder.encode("Francisco") +
           "&__auto_check=" + "" +
           "&survey_page=" + "1" +
-          "&token=" + "6eba9qvllnnt7cc8adf7mgqf80" +
+          "&token=" + token +
           "&submit=" + "";
 
         // Send the request data.
