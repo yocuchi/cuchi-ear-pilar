@@ -15,6 +15,11 @@ public class RestaTiempos {
 		String Saldo="-2:25";
 		String SaldoE="-2:44";
 		
+		System.out.println(Restalos(Saldo,SaldoE));
+		
+		
+	}
+	public static String Restalos(String Saldo, String SaldoE)throws Exception{
 		
 		
 		Long mins= getMins(Saldo)+getMins(SaldoE);
@@ -35,7 +40,7 @@ public class RestaTiempos {
         if (mins<0)signo="-";
         String diffTime = signo + (hours<10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes)  + " h";
 		
-        System.out.println(diffTime);
+        return diffTime;
 	}
 	public static long getMins(String horas_min) throws Exception{
 		
