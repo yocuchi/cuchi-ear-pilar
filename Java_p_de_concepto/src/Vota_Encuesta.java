@@ -21,8 +21,9 @@ public class Vota_Encuesta {
      */
 	public static void main(String args[]){
 		
-		for (int i=0; i<100;i++){
+		for (int i=0; i<1;i++){
 			
+			System.oy
 			//vota("6eba9qvllnnt7cc8adf7mgqf80");
 			vota("6eba9qvllnnt7cc8adf7mgq"+i);
 		}
