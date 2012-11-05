@@ -21,11 +21,11 @@ public class Vota_Encuesta {
      */
 	public static void main(String args[]){
 		
-		for (int i=0; i<1;i++){
+		for (int i=0; i<100;i++){
 			
-			System.oy
+			int m =(int)Math.random()*100000;
 			//vota("6eba9qvllnnt7cc8adf7mgqf80");
-			vota("6eba9qvllnnt7cc8adf7mgq"+i);
+			vota(m+"llnnt7cc8adf7mgq"+i);
 		}
 		
 	}
