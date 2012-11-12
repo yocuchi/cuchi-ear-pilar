@@ -17,7 +17,7 @@ public class UserInput {
 		
 		String userName = br.readLine();
 		
-		System.out.println(userName+" Bienvenido señor");
+		System.out.println(userName+" Bienvenido señor")
 
 
 	}

@@ -3,7 +3,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
 import java.util.logging.Level;
@@ -30,7 +29,8 @@ public class Vota_Encuesta {
 		
 	}
 	
-    public static void vota( String token) {
+    @SuppressWarnings("deprecation")
+	public static void vota( String token) {
         
 
         URL url = null;
@@ -84,12 +84,13 @@ public class Vota_Encuesta {
 
         // Construct the POST data.
         String content =
-          "field1=" + URLEncoder.encode("Francisco") +
+          "field1=" + "Francisco" +
           "&__auto_check=" + "" +
           "&survey_page=" + "1" +
           "&token=" + token +
           "&submit=" + "";
 
+        
         // Send the request data.
         try {
             output.writeBytes(content);
