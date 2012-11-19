@@ -14,6 +14,7 @@ public class MetodosReturn {
 }
 	public static void Pinta(String s){
 		System.out.println(s);
+		System.out.println(resultado);
 	}
 
 }
