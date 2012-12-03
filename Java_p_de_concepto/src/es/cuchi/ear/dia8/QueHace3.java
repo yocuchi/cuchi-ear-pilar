@@ -5,21 +5,39 @@ import java.io.InputStreamReader;
 
 public class QueHace3 {
 	public static void main(String[] args) throws Exception{
-		String secreto="style";
-		System.out.println("Pon la contraseña");
-		int i=0;
-		for (;i<3;i++){
-			if (metodo1().equalsIgnoreCase(secreto)){
-				System.out.println("Bienvenido al templo de la sabiduria");
-				i=100;
+		
+		System.out.println("cuanto dinero quieres");
+		int dinero=Integer.parseInt(metodo1());
+		
+		
+		while (dinero>0){
+			System.out.println("Tienes "+dinero +"€");
+			System.out.println("A que numero de la ruleta quieres apostar? [0 al 36]");
+			int num_apuesta=Integer.parseInt(metodo1());
+			
+			System.out.println("Que cantidad quieres apostar?");
+			int apuesta=Integer.parseInt(metodo1());
+			
+			dinero=dinero-apuesta;
+			System.out.println("No hay mas apuestas....");
+			Thread.sleep(2000L);
+			int resultado = (int) (Math.random()*36);
+			System.out.println("Ha salido el "+resultado);
+			
+			if (resultado==num_apuesta){
+				int premio=apuesta *36;
+				System.out.println("Ha acertado el caballero, se lleva " + premio +"€");
+				dinero=dinero+premio;
 			}
 			else{
-				System.out.println("Contraseña errónea");
-			}	
+				System.out.println("Gana la banca.");
+				
+				
+			}
+			
+			
 		}
-		if (i==3){
-			System.out.println("Vete a tu casa");
-		}
+		System.out.println("Te arruinaste chaval....");
 	}
 	
 	public static String metodo1() throws Exception{

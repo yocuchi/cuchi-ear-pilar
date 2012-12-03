@@ -34,9 +34,6 @@ public class Adivinar2 {
 		}
 		
 		pinta("ENHORABUENA, HAS GANADO UN PREMIO, "+nombre+" "+apellido);
-		
-		
-		
 		}
 	
 	public static String leelinea() throws Exception {
@@ -54,10 +51,6 @@ public class Adivinar2 {
 	public static String pinta(String s){
 		System.out.println(s);
 		return s;
-	
-	
-
-
-	}
+		}
 
 }
