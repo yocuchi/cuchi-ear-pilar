@@ -14,15 +14,15 @@ public class QueHace1 {
 		String ataquefuerte = null, ataquedebil = null;
 		
 		if (enemigo.equalsIgnoreCase("alien")){
-			vida_e=1000;
+			vida_e=600;
 			fuerza_e=200;
 			ataquefuerte="Rayo Espacial";
 			ataquedebil="Cabezazo Alien";
 			Utilidades.pinta("alien");
 			Utilidades.log("You are gonna die!!!");
 		}else if (enemigo.equalsIgnoreCase("rana")){
-			vida_e=50;
-			fuerza_e=20;
+			vida_e=1500;
+			fuerza_e=80;
 			ataquefuerte="Veneno de sapo";
 			ataquedebil="Lenguetazo";
 			Utilidades.pinta("rana");
@@ -45,7 +45,7 @@ public class QueHace1 {
 		if (juega_ataque.equalsIgnoreCase("M")){
 			if (ataque>50){
 			Utilidades.log("Atacas con Mano, le quitas 40");
-			vida_e=vida_e-50;
+			vida_e=vida_e-40;
 			}else{
 			Utilidades.log("Atacas con la mano y fallaste");	
 			}
@@ -66,6 +66,7 @@ public class QueHace1 {
 		int ataque_e=(int) (Math.random()*100);
 		if (ataque_e<30){
 			Utilidades.log("Tu enemigo se ha resbalado");
+			daño=0;
 		}else if (ataque_e<70){
 			Utilidades.log("Tu enemigo te ataca con "+ataquedebil);
 			daño=fuerza_e/4;
