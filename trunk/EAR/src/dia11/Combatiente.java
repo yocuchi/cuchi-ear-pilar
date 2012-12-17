@@ -14,7 +14,8 @@ public class Combatiente {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Combatiente();
+		Combatiente c=new Combatiente();
+		System.out.println(c);
 
 	}
 
@@ -25,6 +26,19 @@ public class Combatiente {
 		vida = 200 +(int) (Math.random()*1000);
 		
 		//generador de nombres aleatorios
+		String[] Titulo = {"Señor","Gobernador","Asesino", "Caballero", "Mutante"
+				,"Chorizo"};
+		String[] Nombres = {"Damian","Arturo","Alejandro","Asier","Rafa"};
+		
+		Nombre=Titulo[(int) (Math.random()*Titulo.length)]+" "+
+					  Nombres[(int) (Math.random()*Nombres.length)];
+		
+		String[] A_fuerte = {"Mandoble","Moco","PanzerFaust","Beretta"};
+		ataque_fuerte=A_fuerte[(int) (Math.random()*A_fuerte.length)];
+		
+		String[] A_debil = {"Colleja","Toba","Uña"};
+		ataque_debil=A_debil[(int) (Math.random()*A_debil.length)];
+		
 		
 	}
 

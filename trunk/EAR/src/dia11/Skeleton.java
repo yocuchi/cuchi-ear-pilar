@@ -6,7 +6,7 @@ public class Skeleton extends JFrame {
 
     public Skeleton() {
         
-    	add(new Quehace1());
+    	add(new Quehace());
         setTitle("Skeleton");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600, 580);
