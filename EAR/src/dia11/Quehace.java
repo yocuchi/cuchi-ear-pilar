@@ -8,11 +8,11 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class Quehace1 extends JPanel {
+public class Quehace extends JPanel {
 
     Image bardejov;
 
-    public Quehace1() {
+    public Quehace() {
         ImageIcon ii = new ImageIcon(this.getClass().getResource("ecce.jpg"));
         bardejov = ii.getImage();
     }
