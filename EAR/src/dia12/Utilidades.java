@@ -1,4 +1,4 @@
-package dia11;
+package dia12;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -25,7 +25,7 @@ public class Utilidades {
 	System.out.println(s);	
 	}
 	
-	public static String leelinea() throws Exception{
+	public String leelinea() throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		return br.readLine();
 		}
