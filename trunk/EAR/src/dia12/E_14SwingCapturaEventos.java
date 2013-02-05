@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class _14SwingCapturaEventos {
+public class E_14SwingCapturaEventos {
 
 	/**
 	 * @param args

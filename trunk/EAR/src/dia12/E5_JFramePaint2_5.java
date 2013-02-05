@@ -4,7 +4,7 @@ package dia12;
 
 	import java.awt.*;
 	import javax.swing.*;
-	public class _5JFramePaint2 {
+	public class E5_JFramePaint2_5 {
 	   public static void main(String[] a) {
 	      JFrame f = new JFrame();
 	      f.setTitle("Drawing Graphics in a Frame"
