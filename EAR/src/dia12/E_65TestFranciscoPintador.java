@@ -5,9 +5,9 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import dia12._5JFramePaint2.MyComponent;
 
-public class _65TestFranciscoPintador {
+
+public class E_65TestFranciscoPintador {
 
 	/**
 	 * @param args

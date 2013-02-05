@@ -3,14 +3,14 @@ package dia12;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class _8BotonConAccion implements ActionListener {
+public class E_8BotonConAccion implements ActionListener {
    
    JButton myButton = null;
    JLabel myLebal = null;
    String text = null;
    
    public static void main(String[] a) {
-      _8BotonConAccion myTest = new _8BotonConAccion();
+      E_8BotonConAccion myTest = new E_8BotonConAccion();
       myTest.createFrame();
    }
    
