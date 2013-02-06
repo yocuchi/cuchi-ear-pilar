@@ -19,7 +19,12 @@ public class PartidaContact {
 	public boolean [] Esquiva;
 	public boolean [] Defensa;
 	
+	 int Turno=0;
+	
+	
 	static Utilidades u;
+	
+	public int Esperams=100;
 	
 	/**
 	 * @param args
@@ -29,9 +34,11 @@ public class PartidaContact {
 		// TODO Auto-generated method stub
 		
 		
-		PartidaContact PC= new PartidaContact(new Toli(), new Toli());
+		PartidaContact PC= new PartidaContact(new Toli(), new Manute());
+		PC.Esperams=1000;
 		u=new Utilidades();
 		PC.JuegaPartida();
+		
 		
 		
 		
@@ -45,46 +52,84 @@ public class PartidaContact {
 		 
 		//checks iniciales
 		CheckInicial();
+		if (this.texto_victoria != null){Pinta_Vencedor();return;}
 		u.log(" Jugadores limpios.  Va a comenzar el combate");
 		 hablen_jugadores();
 		
 		//turnos
-		 int Turno=0;
+		
 		 while(Vida[0]>0 && Vida[1]>0){
 			 Turno++;
-			 u.log("Turno "+Turno);
+			 u.log("=================Turno "+Turno+" ===================");
 
 			 //reseteo los esquivadores
+			 this.Daño = new int [2];
  			 this.Esquiva = new boolean [2];
 			this.Defensa = new boolean [2];
 						
 			 
 			 int otro=1;
 			 for (int i=0; i<2; i++ ){
-				 Acciona(i,otro);				 
+				 Acciona(i,otro);
+				 otro--;
 			 }
 			 //gestiono los daños
-			 
-			 
+			  otro=1;
+			 for (int i=0; i<2; i++ ){
+				 if (Daño[i]>0){
+					 //hay ataque, a ver la defensa
+					 if (Defensa[otro]==true){
+						 Vida[otro]=Vida[otro]-5;
+					 }else if (Esquiva[otro]==true){
+						 //nada
+					 }else{
+						 Vida[otro]=Vida[otro]-Daño[i];
+					 }
+					 
+				 }
+				 
+				 otro --;
+			 }
+			 //pinto como va
+			 u.log(this.toString());
 			 
 		 }
-		 
+		 //el vencedor es el jugador con mas vida
+		 if (Vida[0]>=Vida[1]){Vencedor=P[0];}
+		 else {Vencedor=P[1];}
+		 this.texto_victoria="Victoria por golpes del jugador "+Vencedor;
+		 Pinta_Vencedor();
+		
 		
 	}
 	
+	
+	public void Pinta_Vencedor(){
+		
+		 u.log("*****************************************");
+		 u.log("******       GANADOR             ********");
+		 u.log("******\t\t"+Vencedor.getNombre()+"\t\t ********");
+		 u.log("******                           ********");
+		 u.log("*****************************************");
+	}
 	
 	public void Acciona(int p, int e) throws Exception{
 		//la i es el jugador y la e el enemigo
 		//devuelve true si se ha resvalado
 		
+		if (Fallo[p]){
+			Fallo[p]=false;
+			return;
+		}
+		
 		Accion acc = P[p].que_haces();
 		
 		if (acc.equals(acc.ATAQUE_DEBIL)){
-			u.log(P[p].getNombre() + " utiliza " + P[p].getAtaque_debil());
+			u.logl(P[p].getNombre() + " utiliza " + P[p].getAtaque_debil());
 			//los debiles se fallan con un 10% de probabilidad y hacen un 10% del daño
 			if (probabilidad(90)){
 				//ocurre
-				u.log(" y acierta haciendo"+ (int)(Fuerza[p]/10));
+				u.log(" y acierta haciendo "+ (int)(Fuerza[p]/10));
 				Daño[p]=(int)(Fuerza[p]/10);
 				
 			}
@@ -92,11 +137,11 @@ public class PartidaContact {
 				u.log(" y falla con el debil");
 			}}
 		else if (acc.equals(acc.ATAQUE_F)){
-				u.log(P[p].getNombre() + " utiliza " + P[p].getAtaque_fuerte());
+				u.logl(P[p].getNombre() + " utiliza " + P[p].getAtaque_fuerte());
 				//los fuertes se fallan con un 75% de probabilidad y hacen un 75% del daño
 				if (probabilidad(25)){
 					//ocurre
-					u.log(" y acierta haciendo"+ (int)(Fuerza[p]/4));
+					u.log(" y acierta haciendo "+ (int)(Fuerza[p]/4));
 					Daño[p]=(int)(Fuerza[p]/4);
 					
 				}
@@ -111,7 +156,7 @@ public class PartidaContact {
 			
 			}
 		else if (acc.equals(acc.ESQUIVA)){
-				u.log(P[p].getNombre() + " intenta esquivar ");
+				u.logl(P[p].getNombre() + " intenta esquivar ");
 				//Se esquiva con probabilidad de fuerza /3 + 30
 				if (probabilidad(Fuerza[p]+30)){
 					//esquiva
@@ -135,21 +180,22 @@ public class PartidaContact {
 
 	public boolean probabilidad(int i) throws Exception{
 		//devuelve true si ha ocurrido lo que tiene un i% de probabilidades de ocurrir
-		u.espera((int) 100L);
+		u.espera(this.Esperams);
 		return (int) (Math.random()*100) <=i;
 	}
 	
 	public void CheckInicial(){
 		
-		int i=1;
-		for (ContactPlayer cp : this.P){  
-			if (cp.getFuerza()+cp.getVida()>200){
-				texto_victoria=("Jugador "+cp.getNombre()+" con valores erroneos " + cp.getVida()+cp.getFuerza());
-				Vencedor=P[i];
-				i--;
-				Vida[i]=0;
+		int otro=1;
+		for (int i=0;i<2;i++){  
+			if (P[i].getFuerza()+P[i].getVida()>200){
+				texto_victoria=(" *** Jugador "+P[i].getNombre()+" con valores erroneos " + P[i].getVida()+P[i].getFuerza()+"***");
+				u.log(texto_victoria);				
+				Vencedor=P[otro];
+				
+				
 			}
-			
+			otro--;
 		  }  
 		
 		
@@ -199,7 +245,7 @@ public class PartidaContact {
 
 
 
-	@Override
+	
 	public String toString() {
 		return "PartidaContact [P1="  +P[0].getNombre() + " Vida=" +Vida[0]+
 				", F_P1=" + Fallo[0]+ "\t || " +

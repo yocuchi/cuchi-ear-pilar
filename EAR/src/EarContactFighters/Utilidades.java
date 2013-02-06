@@ -25,6 +25,11 @@ public class Utilidades {
 	System.out.println(s);	
 	}
 	
+	public void logl(String s){
+		System.out.print(s);	
+		}
+		
+	
 	public String leelinea() throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		return br.readLine();
