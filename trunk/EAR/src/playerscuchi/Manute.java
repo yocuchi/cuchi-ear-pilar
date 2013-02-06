@@ -10,8 +10,8 @@ public class Manute extends ContactPlayer {
 	
 
 	public Manute(){
-		this.fuerza=180;
-		this.vida=20;
+		this.fuerza=160;
+		this.vida=40;
 		this.Ataque_debil="Puño";
 		this.Ataque_fuerte="patada chuck";
 		this.Equipo="Fran";
@@ -27,9 +27,14 @@ public class Manute extends ContactPlayer {
 	@Override
 	public Accion que_haces() {
 		// TODO Auto-generated method stub
+		int opt=(int) (Math.random()*100);
+		if (opt>90){return Accion.ATAQUE_DEBIL;	}
+		else if (opt>30){return Accion.ATAQUE_F;	}
+		else if (opt>25){return Accion.DEFENSA;	}
+		else  {return Accion.ESQUIVA;	}
 		
 		
-		return null;
+		
 	}
 
 }
