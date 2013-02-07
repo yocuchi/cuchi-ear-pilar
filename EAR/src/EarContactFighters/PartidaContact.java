@@ -138,8 +138,8 @@ public class PartidaContact {
 			}}
 		else if (acc.equals(acc.ATAQUE_F)){
 				u.logl(P[p].getNombre() + " utiliza " + P[p].getAtaque_fuerte());
-				//los fuertes se fallan con un 75% de probabilidad y hacen un 75% del daño
-				if (probabilidad(25)){
+				//los fuertes se fallan con un 70% de probabilidad y hacen un 75% del daño
+				if (probabilidad(30)){
 					//ocurre
 					u.log(" y acierta haciendo "+ (int)(Fuerza[p]/4));
 					Daño[p]=(int)(Fuerza[p]/4);
