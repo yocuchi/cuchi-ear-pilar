@@ -33,6 +33,8 @@ public class TableroTankFighters extends JComponent  {
 	
 	int Alto_tank=10;
 	int Ancho_tank=10;
+	int Ancho_proyectil=8;
+	int Alto_proyectil=8;
 	
 	double Tiempo;
 	double intervalo=50; //ms por cada intervalo de reloj
@@ -141,7 +143,9 @@ public class TableroTankFighters extends JComponent  {
 			  //veo si hay impacto
 			  checkImpactos();
 			  if (v.y>Alto)  iter.remove();  //si el proyectil ya ha salido
-			  if (v.x>Ancho/2-10 && v.x<Ancho/2+10 && v.y>Alto-100)iter.remove(); 
+			  if (v.x>Ancho/2-2 && v.x<Ancho/2+2 && v.y>Alto-100)iter.remove(); 
+			  
+			  // el muro es g.fillRect(Ancho/2-20, Alto-100, 4, 100);
 		}
 		    
 		//descienden las recargas
@@ -182,7 +186,7 @@ public class TableroTankFighters extends JComponent  {
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		//pintamos la montaña del medio
-		g.fillRect(Ancho/2-20, Alto-100, 4, 100);
+		g.fillRect(Ancho/2-2, Alto-100, 4, 100);
 		
 		//pintamos los nombres
 		g.drawChars(P[0].getNombre().toCharArray(), 0, P[0].getNombre().length(), 20, 20);
@@ -209,7 +213,8 @@ public class TableroTankFighters extends JComponent  {
 		for (Proyectil v : this.Proyectiles){
 			
 			g.setColor(v.Lanzador.getColor());
-			g.fillOval((int)v.x, (int) v.y, 10, 10);
+			g.fillOval((int)v.x-this.Ancho_proyectil/2, (int) v.y -this.Alto_proyectil/2, this.Ancho_proyectil, this.Alto_proyectil);
+			g.drawString(v.x+","+v.y, (int)v.x, (int)v.y);
 			g.setColor(Color.black);
 			
 		
