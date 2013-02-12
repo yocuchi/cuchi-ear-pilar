@@ -22,7 +22,7 @@ public abstract class ContactPlayer {
 	 
 	 public abstract String diAlgo();//dice algo
 	 
-	 public abstract Accion que_haces();//devuelve la accion que decide hacer el jugador	
+	 public abstract Accion que_haces( boolean FalloElOtro, Accion AccionDelOtro);//devuelve la accion que decide hacer el jugador	
 
 	public PartidaContact getPartida() {
 		return partida;

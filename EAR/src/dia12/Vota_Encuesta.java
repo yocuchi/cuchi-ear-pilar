@@ -21,11 +21,12 @@ public class Vota_Encuesta {
      */
 	public static void main(String args[]){
 		
-		for (int i=0; i<700;i++){
+		for (int i=0; i<5100;i++){
 			
-			int m =(int)Math.random()*100000;
+			int m =(int)Math.random()*1000000000;
 			//vota("6eba9qvllnnt7cc8adf7mgqf80");
-			vota(m+"ll32nt7cc8adf7mgq"+i);
+			vota(m+"32321"+i);
+			System.out.println(i);
 		}
 		
 	}
@@ -101,9 +102,9 @@ public class Vota_Encuesta {
           "&token=" + token +
           "&submit=" + "";
 
-        System.out.println(content);
+        //System.out.println(content);
         // Send the request data.
-        System.out.println("Se envia");
+        //System.out.println("Se envia");
         try {
             output.writeBytes(content);
             output.flush();
@@ -114,12 +115,12 @@ public class Vota_Encuesta {
 
         // Get response data.
         
-        System.out.println("a recibir");
+       // System.out.println("a recibir");
         String str = null;
         try {
             input = new DataInputStream (urlConn.getInputStream());
             while (null != ((str = input.readLine()))) {
-                System.out.println(str);
+              //  System.out.println(str);
             }
             input.close ();
         } catch (IOException ex) {

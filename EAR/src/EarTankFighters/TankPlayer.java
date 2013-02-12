@@ -1,20 +1,16 @@
 package EarTankFighters;
 
+import java.awt.Color;
+
 public abstract class TankPlayer {
 
 	public TableroTankFighters partida;
-	public int vida;
-	public int fuerza;
 	public String Nombre;
 	public String Equipo;
-	public String Ataque_debil;
-	public String getAtaque_debil() {
-		return Ataque_debil;
-	}
-
-	public String getAtaque_fuerte() {
-		return Ataque_fuerte;
-	}
+	
+	public Color color;
+	
+	
 
 	public String Ataque_fuerte;
 	
@@ -22,33 +18,39 @@ public abstract class TankPlayer {
 	 
 	 public abstract String diAlgo();//dice algo
 	 
-	 public abstract Accion que_haces();//devuelve la accion que decide hacer el jugador	
 
-	public PartidaContact getPartida() {
+	public TableroTankFighters getPartida() {
 		return partida;
 	}
 
-	public void setPartida(PartidaContact partida) {
+	public void setPartida(TableroTankFighters partida) {
 		this.partida = partida;
 	}
 
-	public int getVida() {
-		return vida;
-	}
 
 	public String getEquipo() {
 		return Equipo;
 	}
 
-	public int getFuerza() {
-		return fuerza;
-	}
 
 	public String getNombre() {
 		return Nombre;
 	}
 
-	 public abstract int getPosInicial();
+    public abstract int muevete( TableroTankFighters TTF, boolean izquierda);
+    //indica la variacion en int respecto de la posicion inicial
+    //para acceder a las variables de la partida, se pasa la partida como argumento
+	
+	public abstract int getPosInicial();
+
+	public Color getColor() {
+		// TODO Auto-generated method stub
+		return this.color;
+	}
+
+
+	
+	public abstract Proyectil dispara(TableroTankFighters TTF, boolean izquierda);
 }
 
 

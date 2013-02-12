@@ -1,6 +1,9 @@
 package EarTankFighters;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -9,14 +12,14 @@ import EarContactFighters.ContactPlayer;
 import EarTankFighters.playerscuchi.TankToli;
 
 
-import dia12.Utilidades;
 
-public class TableroTankFighters extends JFrame {
+
+public class TableroTankFighters extends JComponent  {
 	
 	/* Reglas:
 	 *  1m=1px
 	 * 	un proyectil te mata, hasta las dos victorias
-	 *  en medio hay un pared de 50 px de altura
+	 *  en medio hay un pared de 100 px de altura
 	 *  se dispara cada segundo (velocidad )
 	 * 	se mueve cada 0.1 segundo unos 3 px
 	 * 
@@ -24,14 +27,28 @@ public class TableroTankFighters extends JFrame {
 	 * 
 	 */
 	
-
+	static int Ancho=800;
+	static int Alto=800;
+	
+	int Alto_tank=10;
+	int Ancho_tank=10;
+	
+	double Tiempo;
+	double intervalo=100; //ms por cada intervalo de reloj
+	int tiempo_recarga=1000; //Segundos para recargar
+	int [] Segundos_pdte_recarga; //segundo pendientes para acabar la recarga
+	int max_move= 10; //numero de px que se puede mover por segundo
+	
+	List<Proyectil> Proyectiles = new ArrayList<Proyectil>();
+	
 	TankPlayer [] P;
 	TankPlayer Vencedor;
 	
 	int [] posiciones; //donde están los tankes, es siempre positivo, midiendo desde el centro
+	static int [] Victorias; //las victorias de cada jugador
 	
 	public String texto_victoria; 
-	
+	boolean fin;
 	
 	
 	Utilidades u;
@@ -41,20 +58,21 @@ public class TableroTankFighters extends JFrame {
 		P= new TankPlayer[2];
 		P[0]=tankPlayer;
 		P[1]=tankPlayer2;
+		
+		this.setBounds(0, 0, Ancho, Alto);
 	
 		//relleno los campos estáticos
 		posiciones = new int[2];
 		posiciones[0]=P[0].getPosInicial();
 		posiciones[1]=P[1].getPosInicial();
 	
+		this.Segundos_pdte_recarga=new int [2];
 		
-		 this.setTitle("EAR TANK FIGHTERS");
-		 this.setBounds(50,50,800,800);
-		 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 this.setVisible(true);
 		 
-		//
+		//una clase de utilidades siempre viene bien
 		u= new Utilidades();
+		
+		//añado el panel
 		
 	
 		 
@@ -63,57 +81,146 @@ public class TableroTankFighters extends JFrame {
 
 	public static void main(String[] args) throws Exception{
 		
-		TableroTankFighters Tab = new TableroTankFighters(new TankToli(), new TankToli());
 		
 		
-		
-		
-		
-		while (true){
-		u.log("Bienvenido al pintador de Moñas, que deseas pintar:");
-		u.log("\t-[C]:Cuadrado");
-		u.log("\t-[O]:Circulo");
-		String tipo=u.leelinea();
-		 //lo vacio de dibujos
-		//f.setVisible(false);
-		
-		if (tipo.equalsIgnoreCase("C")){
-			u.log("Coordenada X del esquina superior izquierda");
-			int x =Integer.parseInt(u.leelinea());
-			u.log("Coordenada Y del esquina superior izquierda");
-			int y =Integer.parseInt(u.leelinea());
-			u.log("lado");
-			int l =Integer.parseInt(u.leelinea());
-				
-			f.setContentPane(new MiCuadrado(x,y,l));
-		} else if (tipo.equalsIgnoreCase("O")) {
-			
-			u.log("Coordenada X del centro");
-			int x =Integer.parseInt(u.leelinea());
-			u.log("Coordenada Y del centro");
-			int y =Integer.parseInt(u.leelinea());
-			u.log("radio");
-			int r =Integer.parseInt(u.leelinea());
-			
-			
-			f.setContentPane(new MiCirculo(x,y,r));
-		}
-		else
-		{	
-		u.log("Eres un gañan, esa letra no hace nada");	
-		}
-		f.validate();
-		
+		JFrame f = new JFrame();
+	      f.setTitle("EAR FIGHTERS");
+	     f.setBounds(50,50,Ancho+26,Alto+37);
+	      f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	      
+	      f.setVisible(true);
+	      
+	      Victorias = new int [2];
+		Victorias[0]=0; Victorias[1]=0;
+	   	
+	     //empieza el juego
+	     while (Victorias[0]<2 && Victorias[1]<2){
+	    	 
+	    	 
+	    	 TableroTankFighters Tab = new TableroTankFighters(new TankToli(), new TankToli());
+			f.setContentPane(Tab);
+		   	f.validate(); //repinta
+		   	while(Tab.fin == false){
+		   	
+		   	Tab.EjecutaTurno();
+		   	f.validate();
+		   	Tab.repaint();
+	    	 
+		   	}
+	    	 
+	     }
 		
 		
 		}
-	}
 
 	
+	void EjecutaTurno() throws Exception{
+		//esperamos el tiempo propicio
+		u.espera((int)intervalo);
+		u.log("Segundo "+ this.Tiempo);
+		//preguntamos a los tanques si se pueden mover
+		int mov_P=P[0].muevete(this, true);
+		int mov= (int) (mov_P/Math.abs(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
+		this.posiciones[0]=posiciones[0]+mov;
+		 mov_P=P[1].muevete(this, true);
+		 if (this.posiciones[0]>Ancho/2) this.posiciones[0]=Ancho/2;
+		 
+		 mov= (int) (mov_P/Math.abs(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
+		this.posiciones[1]=posiciones[0]+mov;
+		if (this.posiciones[1]>Ancho/2) this.posiciones[1]=Ancho/2;
+		//si ha salido o esta fuera se quedan
+		
+		
+		//Muevo los proyectiles
+		for (Proyectil v : this.Proyectiles){
+			  v.mueve((int) this.intervalo );
+			  //veo si hay impacto
+			  checkImpactos();
+			  if (v.y>Alto) this.Proyectiles.remove(v); //si el proyectil ya ha salido
+		}
+		    
+		//descienden las recargas
+		this.Segundos_pdte_recarga[0]--;
+		this.Segundos_pdte_recarga[1]--;
+		
+		Proyectil proy;
+		if (this.Segundos_pdte_recarga[0]<=0){
+			//le pido un disparo
+			proy=P[0].dispara(this,true);
+			proy.x=Ancho/2 - posiciones[0];
+			proy.y=Alto-this.Alto_tank;
+			this.Proyectiles.add(proy);}
+		if (this.Segundos_pdte_recarga[1]<=0){
+			//le pido un disparo
+			proy=P[1].dispara(this,true);
+			proy.x=Ancho/2 + posiciones[1];
+			proy.y=Alto-this.Alto_tank;
+			this.Proyectiles.add(proy);}
+		
+		this.Tiempo=this.Tiempo+ (double) this.intervalo/1000;
+		
+	}
+	
+	
+	
+	private void checkImpactos() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	@Override
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
-		super.paint(arg0);
+		//pintamos la montaña del medio
+		g.fillRect(Ancho/2-20, Alto-100, 4, 100);
+		
+		//pintamos los nombres
+		g.drawChars(P[0].getNombre().toCharArray(), 0, P[0].getNombre().length(), 20, 20);
+		g.drawChars(P[0].getEquipo().toCharArray(), 0, P[0].getEquipo().length(), 20, 40);
+		g.drawChars(("Victorias="+this.Victorias[0]).toCharArray(), 0, ("Victorias="+this.Victorias[0]).length(), 20, 60);
+		
+		g.drawChars(P[1].getNombre().toCharArray(), 0, P[1].getNombre().length(), Ancho-20-P[1].getNombre().length()*20, 20);
+		g.drawChars(P[1].getEquipo().toCharArray(), 0, P[1].getEquipo().length(), Ancho-20-P[1].getNombre().length()*20, 40);
+		g.drawChars(("Victorias="+this.Victorias[1]).toCharArray(), 0, ("Victorias="+this.Victorias[1]).length(), Ancho-20-P[1].getNombre().length()*20, 60);
+		
+		//pintamos el tiempo
+		g.drawString("Tiempo="+Tiempo, Ancho/2-("Tiempo="+Tiempo).length()*10, 20);
+		
+		//pintamos los Tankes
+		pintaTanks(g);
+		
+		//pintamos los proyectiles
+		pintaProyectiles(g);
+		
+	}
+	
+	private void pintaProyectiles(Graphics g) {
+		// TODO Auto-generated method stub
+		for (Proyectil v : this.Proyectiles){
+			
+			g.setColor(v.Lanzador.getColor());
+			g.fillOval(v.x, v.y, 10, 10);
+			g.setColor(Color.black);
+			
+		
+		}
+		
+		
+	}
+
+
+	public void pintaTanks (Graphics g){
+		//
+		
+		g.setColor(P[0].getColor());
+		g.fillRect(Ancho/2-posiciones[0], Alto-this.Alto_tank,this.Ancho_tank,this.Alto_tank);
+		
+		g.setColor(P[1].getColor());
+		g.fillRect(Ancho/2+posiciones[1], Alto-this.Alto_tank,this.Ancho_tank,this.Alto_tank);
+		
+		
+		g.setColor(Color.BLACK);
 	}
 
 	
@@ -123,29 +230,3 @@ public class TableroTankFighters extends JFrame {
 
 
 
-class MiCuadrado extends JComponent {
-int x,y,l;
-public MiCuadrado(int x, int y, int l) {
-	// TODO Auto-generated constructor stub
-	this.x=x;
-	this.y=y;
-	this.l=l;
-}
-
-public void paint(Graphics g) {
-   g.drawRect(x,y,l,l);
-}
-}
-class MiCirculo extends JComponent {
-int x,y,r;
-public MiCirculo(int x, int y, int r) {
-	// TODO Auto-generated constructor stub
-	this.x=x;
-	this.y=y;
-	this.r=r;
-}
-
-public void paint(Graphics g) {
-   g.drawOval(x, y, r,r);
-}
-}

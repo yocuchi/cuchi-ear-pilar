@@ -25,7 +25,7 @@ public class Manute extends ContactPlayer {
 	}
 
 	@Override
-	public Accion que_haces() {
+	public Accion que_haces(boolean FalloElOtro, Accion AccionDelOtro) {
 		// TODO Auto-generated method stub
 		int opt=(int) (Math.random()*100);
 		if (opt>90){return Accion.ATAQUE_DEBIL;	}
