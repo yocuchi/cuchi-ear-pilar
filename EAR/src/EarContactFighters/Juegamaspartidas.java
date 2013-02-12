@@ -12,13 +12,16 @@ public class Juegamaspartidas {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		ContactPlayer p1,p2;
-		p1=new Toli();
-		p2=new Manute();
+		ContactPlayer p1 = null,p2 = null;
+		
 		
 		int[] victorias = new int[2];
 		
-		for (int i =0; i<10;i++){
+		for (int i =0; i<100;i++){
+			p1=new personajes.Chrisssshtiano();
+			p2=new Flaranplayers.Flaranlabestia();
+			
+			
 			PartidaContact p=new PartidaContact(p1,p2);
 			p.Esperams=1; // a toda leche
 			p.JuegaPartida();
