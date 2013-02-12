@@ -8,6 +8,8 @@ public abstract class ContactPlayer {
 	public String Nombre;
 	public String Equipo;
 	public String Ataque_debil;
+	public String Ataque_fuerte;
+	
 	public String getAtaque_debil() {
 		return Ataque_debil;
 	}
@@ -16,7 +18,7 @@ public abstract class ContactPlayer {
 		return Ataque_fuerte;
 	}
 
-	public String Ataque_fuerte;
+	
 	
 	
 	 

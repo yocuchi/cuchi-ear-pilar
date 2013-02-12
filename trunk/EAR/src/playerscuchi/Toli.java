@@ -7,12 +7,12 @@ public class Toli extends ContactPlayer{
 	
 	public Toli(){
 		//Esto es el constructor
-		this.vida=150;
-		this.fuerza=50;
-		this.Nombre="Tolufas";
-		this.Equipo="Fran";
-		this.Ataque_debil="tos";
-		this.Ataque_fuerte="Mordisco";
+		vida=150;
+		fuerza=50;
+		Nombre="Tolufas";
+		Equipo="Fran";
+		Ataque_debil="tos";
+		Ataque_fuerte="Mordisco";
 	}
 	
 	

@@ -1,5 +1,9 @@
 package EarContactFighters;
 
+import Flaranplayers.Flaranlabestia;
+import Flaranplayers.Mariana;
+import Guerreroz.LAESTEBAN;
+import personajes.Chrisssshtiano;
 import playerscuchi.*;
 
 public class PartidaContact {
@@ -38,8 +42,13 @@ public class PartidaContact {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		
+		ContactPlayer P1,P2;
+		P1=new personajes.Chrisssshtiano();
+		P2=new Guerreroz.GordoMaster();
 		
-		PartidaContact PC= new PartidaContact(new Toli(), new Manute());
+		
+		
+		PartidaContact PC= new PartidaContact(P1, P2);
 		PC.Esperams=1000;
 		
 		PC.JuegaPartida();
@@ -66,7 +75,7 @@ public class PartidaContact {
 		 while(Vida[0]>0 && Vida[1]>0){
 			 Turno++;
 			 u.log("=================Turno "+Turno+" ===================");
-
+			 hablen_jugadores();
 			 //reseteo los esquivadores
 			 this.Daño = new int [2];
  			 this.Esquiva = new boolean [2];
@@ -99,6 +108,7 @@ public class PartidaContact {
 						 //nada
 					 }else{
 						 Vida[otro]=Vida[otro]-Daño[i];
+						 P[otro].vida=Vida[otro];
 					 }
 					 
 				 }
@@ -107,6 +117,8 @@ public class PartidaContact {
 			 }
 			 //pinto como va
 			 u.log(this.toString());
+			
+			 
 			 
 		 }
 		 //el vencedor es el jugador con mas vida
@@ -124,6 +136,7 @@ public class PartidaContact {
 		 u.log("*****************************************");
 		 u.log("******       GANADOR             ********");
 		 u.log("******\t\t"+Vencedor.getNombre()+"\t\t ********");
+		 u.log("******\t\t"+Vencedor.diAlgo()+"\t\t ********");
 		 u.log("******                           ********");
 		 u.log("*****************************************");
 	}
@@ -160,8 +173,8 @@ public class PartidaContact {
 				//los fuertes se fallan con un 70% de probabilidad y hacen un 75% del daño
 				if (probabilidad(30)){
 					//ocurre
-					u.log(" y acierta haciendo "+ (int)(Fuerza[p]/4));
-					Daño[p]=(int)(Fuerza[p]/4);
+					u.log(" y acierta haciendo "+ (int)(Fuerza[p]*3/4));
+					Daño[p]=(int)(Fuerza[p]*3/4);
 					
 				}
 				else{ 
@@ -239,6 +252,10 @@ public class PartidaContact {
 		this.P=new ContactPlayer[2];
 		P[0]=P1;
 		P[1]=P2;
+		
+		P[0].partida=this;
+		P[1].partida=this;
+		
 		this.Vida = new int [2];
 		Vida[0]=P1.getVida();
 		Vida[1]=P2.getVida();
