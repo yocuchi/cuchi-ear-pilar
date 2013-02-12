@@ -3,6 +3,7 @@ package EarTankFighters;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -34,8 +35,8 @@ public class TableroTankFighters extends JComponent  {
 	int Ancho_tank=10;
 	
 	double Tiempo;
-	double intervalo=100; //ms por cada intervalo de reloj
-	int tiempo_recarga=1000; //Segundos para recargar
+	double intervalo=50; //ms por cada intervalo de reloj
+	int tiempo_recarga=1; //Segundos para recargar
 	int [] Segundos_pdte_recarga; //segundo pendientes para acabar la recarga
 	int max_move= 10; //numero de px que se puede mover por segundo
 	
@@ -132,11 +133,15 @@ public class TableroTankFighters extends JComponent  {
 		
 		
 		//Muevo los proyectiles
-		for (Proyectil v : this.Proyectiles){
+		
+		for (Iterator<Proyectil> iter = this.Proyectiles.iterator(); iter.hasNext();) {
+			      Proyectil v = iter.next();
+			
 			  v.mueve((int) this.intervalo );
 			  //veo si hay impacto
 			  checkImpactos();
-			  if (v.y>Alto) this.Proyectiles.remove(v); //si el proyectil ya ha salido
+			  if (v.y>Alto)  iter.remove();  //si el proyectil ya ha salido
+			  if (v.x>Ancho/2-10 && v.x<Ancho/2+10 && v.y>Alto-100)iter.remove(); 
 		}
 		    
 		//descienden las recargas
@@ -149,13 +154,17 @@ public class TableroTankFighters extends JComponent  {
 			proy=P[0].dispara(this,true);
 			proy.x=Ancho/2 - posiciones[0];
 			proy.y=Alto-this.Alto_tank;
-			this.Proyectiles.add(proy);}
+			this.Proyectiles.add(proy);
+			this.Segundos_pdte_recarga[0]=(int) (this.tiempo_recarga*1000/this.intervalo);
+		}
 		if (this.Segundos_pdte_recarga[1]<=0){
 			//le pido un disparo
-			proy=P[1].dispara(this,true);
+			proy=P[1].dispara(this,false);
 			proy.x=Ancho/2 + posiciones[1];
 			proy.y=Alto-this.Alto_tank;
-			this.Proyectiles.add(proy);}
+			this.Proyectiles.add(proy);
+			this.Segundos_pdte_recarga[1]=(int) (this.tiempo_recarga*1000/this.intervalo);
+			}
 		
 		this.Tiempo=this.Tiempo+ (double) this.intervalo/1000;
 		
@@ -200,7 +209,7 @@ public class TableroTankFighters extends JComponent  {
 		for (Proyectil v : this.Proyectiles){
 			
 			g.setColor(v.Lanzador.getColor());
-			g.fillOval(v.x, v.y, 10, 10);
+			g.fillOval((int)v.x, (int) v.y, 10, 10);
 			g.setColor(Color.black);
 			
 		

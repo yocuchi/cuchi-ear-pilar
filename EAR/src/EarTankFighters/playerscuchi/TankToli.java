@@ -39,9 +39,12 @@ public class TankToli extends TankPlayer {
 	@Override
 	public Proyectil dispara(TableroTankFighters TTF, boolean izquierda) {
 		// TODO Auto-generated method stub
-		Proyectil P = new Proyectil(20,20,this);
+		if (izquierda){ return  new Proyectil(20,50,this);}
+		else {
+			return new Proyectil(-80,80,this);
+		}
 		
-		return P;
+		
 	}
 
 }
