@@ -32,7 +32,7 @@ public class Toli extends ContactPlayer{
 
 	
 	
-	public Accion que_haces() {
+	public Accion que_haces(boolean FalloElOtro, Accion AccionDelOtro) {
 		// TODO Auto-generated method stub
 		return Accion.ATAQUE_DEBIL;
 	}

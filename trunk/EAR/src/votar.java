@@ -60,7 +60,8 @@ public class votar{
 	    // Specify the content type.
 	    urlConn.setRequestProperty
 	    ("Content-Type", "text/html; charset=UTF-8");
-	    
+	    urlConn.setRequestProperty("Referer",	"http://yocuchi.questionform.com/public/Desafio-EAR");
+	       
 	 
 	   
 	    // Send POST output.

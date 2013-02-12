@@ -21,6 +21,11 @@ public class PartidaContact {
 	
 	 int Turno=0;
 	
+	//para memorias
+	public boolean [] FalloMemoria; //para guardar lo que ocurrio en el turno anterior
+	public Accion [] AccionMemoria; //para guardar lo que hizo el otro en el turno anterior
+	public Accion [] AccionActual; //para guardar lo que hizo el otro en el turno anterior
+	  
 	
 	static Utilidades u;
 	
@@ -36,7 +41,7 @@ public class PartidaContact {
 		
 		PartidaContact PC= new PartidaContact(new Toli(), new Manute());
 		PC.Esperams=1000;
-		u=new Utilidades();
+		
 		PC.JuegaPartida();
 		
 		
@@ -73,9 +78,19 @@ public class PartidaContact {
 				 Acciona(i,otro);
 				 otro--;
 			 }
-			 //gestiono los daños
+			 //gestiono los daños y las memorias
+			 
+			 this.AccionMemoria=this.AccionActual;
+			 this.FalloMemoria=this.Fallo;
+			 
+			 
 			  otro=1;
 			 for (int i=0; i<2; i++ ){
+				 
+				 //las memorias
+				 
+				 
+				 
 				 if (Daño[i]>0){
 					 //hay ataque, a ver la defensa
 					 if (Defensa[otro]==true){
@@ -122,9 +137,13 @@ public class PartidaContact {
 			return;
 		}
 		
-		Accion acc = P[p].que_haces();
+		Accion acc = P[p].que_haces(this.FalloMemoria[e],this.AccionMemoria[e] );
+		
+		this.AccionActual[p]=acc;
 		
 		if (acc.equals(acc.ATAQUE_DEBIL)){
+			
+			
 			u.logl(P[p].getNombre() + " utiliza " + P[p].getAtaque_debil());
 			//los debiles se fallan con un 10% de probabilidad y hacen un 10% del daño
 			if (probabilidad(90)){
@@ -235,6 +254,12 @@ public class PartidaContact {
 		this.Daño = new int [2];
 		this.Esquiva = new boolean [2];
 		this.Defensa = new boolean [2];
+		
+		this.AccionActual=new Accion[2];
+		this.AccionMemoria=new Accion[2];
+		this.FalloMemoria= new boolean[2];
+		
+		u=new Utilidades();
 				
 	}
 	
