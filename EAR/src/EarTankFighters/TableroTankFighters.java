@@ -31,10 +31,10 @@ public class TableroTankFighters extends JComponent  {
 	static int Ancho=800;
 	static int Alto=800;
 	
-	int Alto_tank=10;
-	int Ancho_tank=10;
-	int Ancho_proyectil=8;
-	int Alto_proyectil=8;
+	static int Alto_tank=10;
+	static int Ancho_tank=10;
+	static int Ancho_proyectil=8;
+	static int Alto_proyectil=8;
 	
 	double Tiempo;
 	double intervalo=50; //ms por cada intervalo de reloj
@@ -212,10 +212,7 @@ public class TableroTankFighters extends JComponent  {
 		// TODO Auto-generated method stub
 		for (Proyectil v : this.Proyectiles){
 			
-			g.setColor(v.Lanzador.getColor());
-			g.fillOval((int)v.x-this.Ancho_proyectil/2, (int) v.y -this.Alto_proyectil/2, this.Ancho_proyectil, this.Alto_proyectil);
-			g.drawString(v.x+","+v.y, (int)v.x, (int)v.y);
-			g.setColor(Color.black);
+			v.pintame(g);
 			
 		
 		}
