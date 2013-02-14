@@ -21,7 +21,7 @@ public class Utilidades {
 		return (int) (Math.random()*numero);
 	}
 	
-	public static void log(String s){
+	public void log(String s){
 	System.out.println(s);	
 	}
 	

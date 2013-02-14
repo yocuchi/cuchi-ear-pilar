@@ -33,16 +33,20 @@ public class TableroTankFighters extends JComponent  {
 	
 	static int Alto_tank=10;
 	static int Ancho_tank=10;
+	
 	static int Ancho_proyectil=8;
 	static int Alto_proyectil=8;
 	
 	double Tiempo;
+	double Factor_tiempo=2; //factor para que vaya mas rapido
 	double intervalo=50; //ms por cada intervalo de reloj
 	int tiempo_recarga=1; //Segundos para recargar
 	int [] Segundos_pdte_recarga; //segundo pendientes para acabar la recarga
-	int max_move= 10; //numero de px que se puede mover por segundo
+	int max_move= 50; //numero de px que se puede mover por segundo
 	
 	List<Proyectil> Proyectiles = new ArrayList<Proyectil>();
+	
+	List<Muro> Muros = new ArrayList<Muro>();
 	
 	TankPlayer [] P;
 	TankPlayer Vencedor;
@@ -75,7 +79,10 @@ public class TableroTankFighters extends JComponent  {
 		//una clase de utilidades siempre viene bien
 		u= new Utilidades();
 		
-		//añado el panel
+		//añado el muro del medio, ojo que los muros hay que dar la corrdenada central
+		this.Muros.add(new Muro(Ancho/2-2, Alto-50, 4, 100,Color.black));
+		//y la base
+		this.Muros.add(new Muro(Ancho, Alto, Ancho, 1,Color.LIGHT_GRAY));
 		
 	
 		 
@@ -119,34 +126,23 @@ public class TableroTankFighters extends JComponent  {
 	
 	void EjecutaTurno() throws Exception{
 		//esperamos el tiempo propicio
-		u.espera((int)intervalo);
+		u.espera((int)(intervalo/this.Factor_tiempo));
 		u.log("Segundo "+ this.Tiempo);
 		//preguntamos a los tanques si se pueden mover
 		int mov_P=P[0].muevete(this, true);
-		int mov= (int) (mov_P/Math.abs(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
+		int mov= (int) (Math.signum(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
 		this.posiciones[0]=posiciones[0]+mov;
-		 mov_P=P[1].muevete(this, true);
+		
+		mov_P=P[1].muevete(this, false);
 		 if (this.posiciones[0]>Ancho/2) this.posiciones[0]=Ancho/2;
 		 
-		 mov= (int) (mov_P/Math.abs(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
+		 mov= (int) (Math.signum(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
 		this.posiciones[1]=posiciones[0]+mov;
 		if (this.posiciones[1]>Ancho/2) this.posiciones[1]=Ancho/2;
 		//si ha salido o esta fuera se quedan
 		
 		
-		//Muevo los proyectiles
 		
-		for (Iterator<Proyectil> iter = this.Proyectiles.iterator(); iter.hasNext();) {
-			      Proyectil v = iter.next();
-			
-			  v.mueve((int) this.intervalo );
-			  //veo si hay impacto
-			  checkImpactos();
-			  if (v.y>Alto)  iter.remove();  //si el proyectil ya ha salido
-			  if (v.x>Ancho/2-2 && v.x<Ancho/2+2 && v.y>Alto-100)iter.remove(); 
-			  
-			  // el muro es g.fillRect(Ancho/2-20, Alto-100, 4, 100);
-		}
 		    
 		//descienden las recargas
 		this.Segundos_pdte_recarga[0]--;
@@ -176,17 +172,17 @@ public class TableroTankFighters extends JComponent  {
 	
 	
 	
-	private void checkImpactos() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 
 	@Override
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
-		//pintamos la montaña del medio
-		g.fillRect(Ancho/2-2, Alto-100, 4, 100);
+		
+		//pintamos los muros
+		for (Muro m : this.Muros){
+			m.pintame(g);
+		}
 		
 		//pintamos los nombres
 		g.drawChars(P[0].getNombre().toCharArray(), 0, P[0].getNombre().length(), 20, 20);
@@ -203,23 +199,44 @@ public class TableroTankFighters extends JComponent  {
 		//pintamos los Tankes
 		pintaTanks(g);
 		
-		//pintamos los proyectiles
-		pintaProyectiles(g);
+		//pintamos  y movemos los proyectiles
+		//Muevo los proyectiles
+		for (int p1=0;p1<this.Proyectiles.size();p1++){
+			Proyectil v = this.Proyectiles.get(p1);
+			v.pintame(g);
+			v.mueve((int) this.intervalo );
+			
+			boolean boom = false;
+			//colision con otros proyectiles
+			for (int p2=0; (p2<this.Proyectiles.size()) && (boom==false);p2++){
+				Proyectil v2 = this.Proyectiles.get(p2);
+				 if (v.Colision(v2) && p2!=p1){
+					  v.Explota(g);
+					  v2.Explota(g);
+					  this.Proyectiles.remove(v);
+					  this.Proyectiles.remove(v2);
+					  p2++;p1++;boom=true;
+				  }
+			}
+			//colision con muross
+			for (int m=0; (m<this.Muros.size()) && (boom==false);m++){
+				Muro m1 = this.Muros.get(m);
+				 if (v.Colision(m1)){
+					  v.Explota(g);
+					  
+					  this.Proyectiles.remove(v);
+					  p1++;boom=true;
+				  }
+			}
+			
+		}
+		
+				
+		
 		
 	}
 	
-	private void pintaProyectiles(Graphics g) {
-		// TODO Auto-generated method stub
-		for (Proyectil v : this.Proyectiles){
-			
-			v.pintame(g);
-			
-		
-		}
-		
-		
-	}
-
+	
 
 	public void pintaTanks (Graphics g){
 		//

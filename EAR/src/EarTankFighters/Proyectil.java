@@ -16,6 +16,8 @@ public class Proyectil extends ObjetoTablero {
 		
 		this.velocidad_x = velocidad_x;
 		this.velocidad_y = velocidad_y;
+		this.Ancho=TableroTankFighters.Ancho_proyectil;
+		this.Alto=TableroTankFighters.Alto_proyectil;
 		Lanzador = lanzador;
 	}
 
@@ -46,13 +48,27 @@ public class Proyectil extends ObjetoTablero {
 		// TODO Auto-generated method stub
 		
 		g.setColor(Lanzador.getColor());
-		g.fillOval((int)x-TableroTankFighters.Ancho_proyectil/2, (int) y -TableroTankFighters.Alto_proyectil/2,
-				TableroTankFighters.Ancho_proyectil, TableroTankFighters.Alto_proyectil);
-		//g.drawString(x+","+y, (int)x, (int)y);
+		g.fillOval((int)(x-Ancho/2), (int) (y -Alto/2),
+				(int)Ancho,(int) Alto);
 		g.setColor(Color.black);
 		
 	}
+
+
+
+	@Override
+	public boolean Colision(ObjetoTablero o) {
+		//me aprovecho de las funciones de JAVA 2D
+				return o.AreaImpacto().intersects(this.AreaImpacto());
+	}
 	
 	
+	public void Explota(Graphics g) {
+		//me aprovecho de las funciones de JAVA 2D
+		g.setColor(Color.RED);
+		g.fillOval((int)(x-Ancho/2), (int) (y -Alto/2),
+				(int)Ancho*2,(int) Alto*2);
+		g.setColor(Color.black);
+	}
 
 }

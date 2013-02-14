@@ -2,12 +2,16 @@ package EarTankFighters.playerscuchi;
 
 
 import java.awt.Color;
+import java.awt.Graphics;
 
+import EarTankFighters.ObjetoTablero;
 import EarTankFighters.Proyectil;
 import EarTankFighters.TableroTankFighters;
 import EarTankFighters.TankPlayer;
 
 public class TankToli extends TankPlayer {
+	
+	int contador;
 
 	@Override
 	public String diAlgo() {
@@ -19,6 +23,7 @@ public class TankToli extends TankPlayer {
 		this.Nombre="TOliTank";
 		this.Equipo="Fran";
 		this.color=Color.BLUE;
+		contador=10;
 		
 	}
 
@@ -31,8 +36,12 @@ public class TankToli extends TankPlayer {
 	@Override
 	public int muevete(TableroTankFighters TTF, boolean izquierda) {
 		// TODO Auto-generated method stub
-		if (izquierda) return 10;
-		else return -10;
+		
+		contador--;
+		if (contador<-30) contador=30;
+		if (izquierda) return contador;
+		else return -contador;
+		
 		
 	}
 
@@ -45,6 +54,18 @@ public class TankToli extends TankPlayer {
 		}
 		
 		
+	}
+
+	@Override
+	public void pintame(Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean Colision(ObjetoTablero o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

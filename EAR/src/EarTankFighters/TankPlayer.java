@@ -2,7 +2,7 @@ package EarTankFighters;
 
 import java.awt.Color;
 
-public abstract class TankPlayer {
+public abstract class TankPlayer extends ObjetoTablero{
 
 	public TableroTankFighters partida;
 	public String Nombre;
