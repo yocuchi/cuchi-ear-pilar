@@ -41,7 +41,7 @@ public class TableroTankFighters extends JComponent  {
 	double Tiempo;
 	double Factor_tiempo=2; //factor para que vaya mas rapido
 	double intervalo=50; //ms por cada intervalo de reloj
-	int tiempo_recarga=1; //Segundos para recargar
+	int tiempo_recarga=3; //Segundos para recargar
 	int [] Segundos_pdte_recarga; //segundo pendientes para acabar la recarga
 	int max_move= 50; //numero de px que se puede mover por segundo
 	
@@ -76,8 +76,8 @@ public class TableroTankFighters extends JComponent  {
 		P[0].Alto=this.Alto_tank;
 		P[1].Alto=this.Alto_tank;
 		
-		P[0].y=Alto-2;
-		P[1].y=Alto-2;
+		P[0].y=Alto-Alto_tank/2-1;
+		P[1].y=Alto-Alto_tank/2-1;
 		
 		this.setBounds(0, 0, Ancho, Alto);
 	
@@ -250,6 +250,20 @@ public class TableroTankFighters extends JComponent  {
 					  this.Proyectiles.remove(v);
 					  p1++;boom=true;
 				  }
+			}
+			
+			//colision con Jugadores
+			int otro_j=1;
+			for (int j=0; (j<this.P.length) && (boom==false);j++){
+				
+				 if (v.Colision(P[j])){
+					  v.Explota(g);
+					  this.Victorias[j]++;
+					  this.Vencedor=P[otro_j];  
+					  this.Proyectiles.remove(v);
+					  p1++;boom=true;
+				  }
+				 otro_j--;
 			}
 			
 		}
