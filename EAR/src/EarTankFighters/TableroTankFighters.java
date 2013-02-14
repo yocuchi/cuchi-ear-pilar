@@ -2,6 +2,7 @@ package EarTankFighters;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,9 @@ public class TableroTankFighters extends JComponent  {
 	int [] Segundos_pdte_recarga; //segundo pendientes para acabar la recarga
 	int max_move= 50; //numero de px que se puede mover por segundo
 	
+	
+	 DecimalFormat df = new DecimalFormat("#.#");
+	 
 	List<Proyectil> Proyectiles = new ArrayList<Proyectil>();
 	
 	List<Muro> Muros = new ArrayList<Muro>();
@@ -51,7 +55,7 @@ public class TableroTankFighters extends JComponent  {
 	TankPlayer [] P;
 	TankPlayer Vencedor;
 	
-	int [] posiciones; //donde están los tankes, es siempre positivo, midiendo desde el centro
+	int [] posiciones; //donde están los tanques
 	static int [] Victorias; //las victorias de cada jugador
 	
 	public String texto_victoria; 
@@ -66,12 +70,21 @@ public class TableroTankFighters extends JComponent  {
 		P[0]=tankPlayer;
 		P[1]=tankPlayer2;
 		
+		P[0].Ancho=this.Ancho_tank;
+		P[1].Ancho=this.Ancho_tank;
+		
+		P[0].Alto=this.Alto_tank;
+		P[1].Alto=this.Alto_tank;
+		
+		P[0].y=Alto-2;
+		P[1].y=Alto-2;
+		
 		this.setBounds(0, 0, Ancho, Alto);
 	
 		//relleno los campos estáticos
 		posiciones = new int[2];
-		posiciones[0]=P[0].getPosInicial();
-		posiciones[1]=P[1].getPosInicial();
+		posiciones[0]=Ancho/2-P[0].getPosInicial();
+		posiciones[1]=P[1].getPosInicial()+Ancho/2;
 	
 		this.Segundos_pdte_recarga=new int [2];
 		
@@ -82,7 +95,7 @@ public class TableroTankFighters extends JComponent  {
 		//añado el muro del medio, ojo que los muros hay que dar la corrdenada central
 		this.Muros.add(new Muro(Ancho/2-2, Alto-50, 4, 100,Color.black));
 		//y la base
-		this.Muros.add(new Muro(Ancho, Alto, Ancho, 1,Color.LIGHT_GRAY));
+		this.Muros.add(new Muro(Ancho/2, Alto, Ancho, 1,Color.LIGHT_GRAY));
 		
 	
 		 
@@ -107,7 +120,7 @@ public class TableroTankFighters extends JComponent  {
 	     while (Victorias[0]<2 && Victorias[1]<2){
 	    	 
 	    	 
-	    	 TableroTankFighters Tab = new TableroTankFighters(new TankToli(), new TankToli());
+	    	TableroTankFighters Tab = new TableroTankFighters(new TankToli(), new TankToli());
 			f.setContentPane(Tab);
 		   	f.validate(); //repinta
 		   	while(Tab.fin == false){
@@ -127,51 +140,60 @@ public class TableroTankFighters extends JComponent  {
 	void EjecutaTurno() throws Exception{
 		//esperamos el tiempo propicio
 		u.espera((int)(intervalo/this.Factor_tiempo));
-		u.log("Segundo "+ this.Tiempo);
-		//preguntamos a los tanques si se pueden mover
-		int mov_P=P[0].muevete(this, true);
-		int mov= (int) (Math.signum(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
-		this.posiciones[0]=posiciones[0]+mov;
+		u.log("Segundo "+ df.format( this.Tiempo));
 		
-		mov_P=P[1].muevete(this, false);
-		 if (this.posiciones[0]>Ancho/2) this.posiciones[0]=Ancho/2;
-		 
-		 mov= (int) (Math.signum(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
-		this.posiciones[1]=posiciones[0]+mov;
-		if (this.posiciones[1]>Ancho/2) this.posiciones[1]=Ancho/2;
-		//si ha salido o esta fuera se quedan
-		
-		
-		
-		    
-		//descienden las recargas
-		this.Segundos_pdte_recarga[0]--;
-		this.Segundos_pdte_recarga[1]--;
-		
-		Proyectil proy;
-		if (this.Segundos_pdte_recarga[0]<=0){
-			//le pido un disparo
-			proy=P[0].dispara(this,true);
-			proy.x=Ancho/2 - posiciones[0];
-			proy.y=Alto-this.Alto_tank;
-			this.Proyectiles.add(proy);
-			this.Segundos_pdte_recarga[0]=(int) (this.tiempo_recarga*1000/this.intervalo);
-		}
-		if (this.Segundos_pdte_recarga[1]<=0){
-			//le pido un disparo
-			proy=P[1].dispara(this,false);
-			proy.x=Ancho/2 + posiciones[1];
-			proy.y=Alto-this.Alto_tank;
-			this.Proyectiles.add(proy);
-			this.Segundos_pdte_recarga[1]=(int) (this.tiempo_recarga*1000/this.intervalo);
+		//vamos a mover los tanques
+		for( int i=0; i< this.P.length;i++){
+			TankPlayer TP=P[i];
+			//puedes moverte?
+			int mov_P=TP.muevete(getCopiaProyectiles(),getCopiaMuros(),
+								posiciones.clone(),(posiciones[i]>Ancho/2));
+			int mov= (int) (Math.signum(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
+			
+			int old_pos=this.posiciones[i];
+			this.posiciones[i]=posiciones[i]+mov;
+			//ojo no te salgas, ver las colisiones con los muros
+			for (int m=0; m<this.Muros.size() ;m++){
+				Muro m1 = this.Muros.get(m);
+				 if (P[i].Colision(m1)){
+					  u.log("Choco con muro");
+					  this.posiciones[i]=old_pos; //para que no te muevas
+				  }
 			}
+			//actualizo el x para que lo tenga
+			P[i].x=posiciones[i];
+			u.log(P[i].getNombre()+"_x:"+P[i].x +"\ty:"+P[i].y);
+			
+			
+			//descienden las recargas
+			this.Segundos_pdte_recarga[i]--;
+			if (this.Segundos_pdte_recarga[i]<=0){
+				//le pido un disparo
+				Proyectil proy;
+				proy=P[i].dispara(getCopiaProyectiles(),getCopiaMuros(),
+						posiciones.clone(),(posiciones[i]>Ancho/2));
+				proy.x=P[i].x;
+				proy.y=P[i].y-this.Alto_tank/2-proy.Alto/2;
+				this.Proyectiles.add(proy);
+				this.Segundos_pdte_recarga[i]=(int) (this.tiempo_recarga*1000/this.intervalo);
+			}
+		
+			
+		}
+		//que pase el tiempo
 		
 		this.Tiempo=this.Tiempo+ (double) this.intervalo/1000;
 		
 	}
 	
 	
+	public Proyectil[] getCopiaProyectiles(){
+		return Proyectiles.toArray(new Proyectil[Proyectiles.size()]);
+	}
 	
+	public Muro[] getCopiaMuros(){
+		return Muros.toArray(new Muro[Muros.size()]);
+	}
 	
 
 
@@ -194,7 +216,7 @@ public class TableroTankFighters extends JComponent  {
 		g.drawChars(("Victorias="+this.Victorias[1]).toCharArray(), 0, ("Victorias="+this.Victorias[1]).length(), Ancho-20-P[1].getNombre().length()*20, 60);
 		
 		//pintamos el tiempo
-		g.drawString("Tiempo="+Tiempo, Ancho/2-("Tiempo="+Tiempo).length()*10, 20);
+		g.drawString("Tiempo="+df.format(Tiempo), Ancho/2-("Tiempo="+Tiempo).length()*10, 20);
 		
 		//pintamos los Tankes
 		pintaTanks(g);
@@ -216,6 +238,7 @@ public class TableroTankFighters extends JComponent  {
 					  this.Proyectiles.remove(v);
 					  this.Proyectiles.remove(v2);
 					  p2++;p1++;boom=true;
+					  u.log("BOOM");
 				  }
 			}
 			//colision con muross
@@ -240,14 +263,13 @@ public class TableroTankFighters extends JComponent  {
 
 	public void pintaTanks (Graphics g){
 		//
-		
-		g.setColor(P[0].getColor());
-		g.fillRect(Ancho/2-posiciones[0], Alto-this.Alto_tank,this.Ancho_tank,this.Alto_tank);
-		
-		g.setColor(P[1].getColor());
-		g.fillRect(Ancho/2+posiciones[1], Alto-this.Alto_tank,this.Ancho_tank,this.Alto_tank);
-		
-		
+		for (int i=0;i<this.P.length;i++){
+			
+			g.setColor(P[i].getColor());
+			g.fillRect((int)(P[i].x-P[i].Ancho/2),(int) (Alto-P[i].Alto),this.Ancho_tank,this.Alto_tank);
+				
+		}
+	
 		g.setColor(Color.BLACK);
 	}
 

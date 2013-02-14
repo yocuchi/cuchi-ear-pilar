@@ -1,6 +1,7 @@
 package EarTankFighters;
 
 import java.awt.Color;
+import java.util.List;
 
 public abstract class TankPlayer extends ObjetoTablero{
 
@@ -37,7 +38,8 @@ public abstract class TankPlayer extends ObjetoTablero{
 		return Nombre;
 	}
 
-    public abstract int muevete( TableroTankFighters TTF, boolean izquierda);
+    public abstract int muevete( Proyectil [] Proyectiles, Muro[] Muros,
+			int [] posiciones, boolean izquierda);
     //indica la variacion en int respecto de la posicion inicial
     //para acceder a las variables de la partida, se pasa la partida como argumento
 	
@@ -47,10 +49,17 @@ public abstract class TankPlayer extends ObjetoTablero{
 		// TODO Auto-generated method stub
 		return this.color;
 	}
-
+	
+	@Override
+	public final boolean Colision(ObjetoTablero o) {
+		//No colisiona nunca
+		
+		return o.AreaImpacto().intersects(this.AreaImpacto());
+	}
 
 	
-	public abstract Proyectil dispara(TableroTankFighters TTF, boolean izquierda);
+	public abstract Proyectil dispara(Proyectil[] proyectils, Muro[] muros,
+										int [] posiciones, boolean izquierda);
 }
 
 
