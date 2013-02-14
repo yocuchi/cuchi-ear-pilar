@@ -2,6 +2,7 @@ package EarTankFighters;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.Polygon;
 
 
 
@@ -26,11 +27,5 @@ public abstract class ObjetoTablero {
 			
 	}
 	
-	public boolean Colision(ObjetoTablero o ){
-		//me aprovecho de las funciones de JAVA 2D
-		return o.AreaImpacto().intersects(o.AreaImpacto());
-		
-		
-			
-	}
+	public abstract boolean Colision(ObjetoTablero o );
 }
