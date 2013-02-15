@@ -63,9 +63,17 @@ public class TankToli extends TankPlayer {
 	@Override
 	public Proyectil dispara(Proyectil[] proyectils, Muro[] muros,
 			int[] posiciones, boolean izquierda) {
+<<<<<<< .mine
+		if (izquierda){ return  new Proyectil(-20,50,this);}
+=======
 		if (izquierda){ return  new Proyectil(-30,50,this);}
+>>>>>>> .r46
 		else {
+<<<<<<< .mine
+			return new Proyectil(+80,80,this);
+=======
 			return new Proyectil(0,80,this);
+>>>>>>> .r46
 		}
 		
 	}
