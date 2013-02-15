@@ -11,6 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import EarContactFighters.ContactPlayer;
+import EarTankFighters.playerscuchi.TankQuieto;
 import EarTankFighters.playerscuchi.TankToli;
 
 
@@ -76,8 +77,8 @@ public class TableroTankFighters extends JComponent  {
 		P[0].Alto=this.Alto_tank;
 		P[1].Alto=this.Alto_tank;
 		
-		P[0].y=Alto-Alto_tank/2-1;
-		P[1].y=Alto-Alto_tank/2-1;
+		P[0].y=Alto-2-this.Alto_tank/2-1;
+		P[1].y=Alto-2-this.Alto_tank/2-1;
 		
 		this.setBounds(0, 0, Ancho, Alto);
 	
@@ -95,7 +96,7 @@ public class TableroTankFighters extends JComponent  {
 		//añado el muro del medio, ojo que los muros hay que dar la corrdenada central
 		this.Muros.add(new Muro(Ancho/2-2, Alto-50, 4, 100,Color.black));
 		//y la base
-		this.Muros.add(new Muro(Ancho/2, Alto, Ancho, 1,Color.LIGHT_GRAY));
+		this.Muros.add(new Muro(Ancho/2, Alto+1, Ancho, 1,Color.LIGHT_GRAY));
 		
 	
 		 
@@ -120,7 +121,7 @@ public class TableroTankFighters extends JComponent  {
 	     while (Victorias[0]<2 && Victorias[1]<2){
 	    	 
 	    	 
-	    	TableroTankFighters Tab = new TableroTankFighters(new TankToli(), new TankToli());
+	    	TableroTankFighters Tab = new TableroTankFighters(new TankQuieto(200), new TankQuieto(200));
 			f.setContentPane(Tab);
 		   	f.validate(); //repinta
 		   	while(Tab.fin == false){
@@ -147,7 +148,7 @@ public class TableroTankFighters extends JComponent  {
 			TankPlayer TP=P[i];
 			//puedes moverte?
 			int mov_P=TP.muevete(getCopiaProyectiles(),getCopiaMuros(),
-								posiciones.clone(),(posiciones[i]>Ancho/2));
+								posiciones.clone(),(posiciones[i]<Ancho/2));
 			int mov= (int) (Math.signum(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
 			
 			int old_pos=this.posiciones[i];
@@ -171,11 +172,13 @@ public class TableroTankFighters extends JComponent  {
 				//le pido un disparo
 				Proyectil proy;
 				proy=P[i].dispara(getCopiaProyectiles(),getCopiaMuros(),
-						posiciones.clone(),(posiciones[i]>Ancho/2));
+						posiciones.clone(),(posiciones[i]<Ancho/2));
+				if (proy!=null){
 				proy.x=P[i].x;
 				proy.y=P[i].y-this.Alto_tank/2-proy.Alto/2;
 				this.Proyectiles.add(proy);
 				this.Segundos_pdte_recarga[i]=(int) (this.tiempo_recarga*1000/this.intervalo);
+				}
 			}
 		
 			
