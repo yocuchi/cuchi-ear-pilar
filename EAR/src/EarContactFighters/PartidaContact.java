@@ -1,14 +1,18 @@
 package EarContactFighters;
 
-import Flaranplayers.Flaranlabestia;
-import Flaranplayers.Mariana;
-import Guerreroz.LAESTEBAN;
-import personajes.Chrisssshtiano;
+
 import playerscuchi.*;
 
 public class PartidaContact {
 
 	ContactPlayer [] P;
+	public ContactPlayer[] getP() {
+		return P;
+	}
+
+
+
+
 	ContactPlayer Vencedor;
 	
 	public String texto_victoria; 
@@ -43,9 +47,10 @@ public class PartidaContact {
 		// TODO Auto-generated method stub
 		
 		ContactPlayer P1,P2;
-		P1=new personajes.Chrisssshtiano();
-		P2=new Guerreroz.GordoMaster();
-		
+		//P1=new personajes.Chrisssshtiano();
+		//P2=new Guerreroz.GordoMaster();
+		P1= new Manute();
+		P2= new MutenRoi();
 		
 		
 		PartidaContact PC= new PartidaContact(P1, P2);
