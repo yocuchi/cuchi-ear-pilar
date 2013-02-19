@@ -106,7 +106,7 @@ public class TableroTankFighters extends Container  {
 		u= new Utilidades();
 		
 		//añado el muro del medio, ojo que los muros hay que dar la corrdenada central
-		this.Muros.add(new Muro(Ancho/2-2, Alto-50, 4, 100,Color.black));
+		this.Muros.add(new Muro(Ancho/2-2, Alto-10, 4, 20,Color.black));
 		//y la base
 		this.Muros.add(new Muro(Ancho/2, Alto+1, Ancho, 1,Color.LIGHT_GRAY));
 		
