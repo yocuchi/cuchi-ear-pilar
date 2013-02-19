@@ -1,14 +1,20 @@
 package EarTankFighters;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import EarContactFighters.ContactPlayer;
 import EarTankFighters.playerscuchi.TankQuieto;
@@ -17,7 +23,7 @@ import EarTankFighters.playerscuchi.TankToli;
 
 
 
-public class TableroTankFighters extends JComponent  {
+public class TableroTankFighters extends Container  {
 	
 	/* Reglas:
 	 *  1m=1px
@@ -62,11 +68,17 @@ public class TableroTankFighters extends JComponent  {
 	public String texto_victoria; 
 	boolean fin;
 	
+	JLabel tiempo;
+	JLabel Mensaje;
+	
 	
 	Utilidades u;
 	
 	public TableroTankFighters(TankPlayer tankPlayer, TankPlayer tankPlayer2) {
 		// TODO Auto-generated constructor stub
+		
+		
+		
 		P= new TankPlayer[2];
 		P[0]=tankPlayer;
 		P[1]=tankPlayer2;
@@ -98,6 +110,31 @@ public class TableroTankFighters extends JComponent  {
 		//y la base
 		this.Muros.add(new Muro(Ancho/2, Alto+1, Ancho, 1,Color.LIGHT_GRAY));
 		
+		//añado los labels
+		this.tiempo=new JLabel("0.0");
+		this.tiempo.setBounds(0, 30, Ancho,60);
+		this.tiempo.setHorizontalAlignment(SwingConstants.CENTER);
+		this.tiempo.setFont(new Font("Serif", Font.BOLD, 48));
+		this.add(this.tiempo);
+		
+		//añado los labels
+		this.Mensaje=new JLabel("PREPARADOS?");
+		this.Mensaje.setBounds(0, Alto/2, Ancho,60);
+		this.Mensaje.setHorizontalAlignment(SwingConstants.CENTER);
+		this.Mensaje.setFont(new Font("Serif", Font.BOLD, 48));
+		this.add(this.Mensaje);
+		
+		
+		
+		
+		//
+		//JButton b = new JButton("OKKKKKK");
+		//b.setBounds(250 + 10, 50 + 10,
+        //           300, 400);
+	    //  f.getContentPane().add(b);
+	     //Demo.addComponentsToPane(Tab);
+  	 //this.add(b);
+		
 	
 		 
 	}
@@ -108,22 +145,29 @@ public class TableroTankFighters extends JComponent  {
 		
 		
 		JFrame f = new JFrame();
-	      f.setTitle("EAR FIGHTERS");
-	     f.setBounds(50,50,Ancho+26,Alto+37);
-	      f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    f.setTitle("EAR FIGHTERS");
+	    f.setBounds(50,50,Ancho+26,Alto+37);
+	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	      
-	      f.setVisible(true);
+	     
 	      
 	      Victorias = new int [2];
 		Victorias[0]=0; Victorias[1]=0;
 	   	
 	     //empieza el juego
-	     while (Victorias[0]<2 && Victorias[1]<2){
+	     while ((Victorias[0]<2) && (Victorias[1]<2)){
 	    	 
-	    	 
-	    	TableroTankFighters Tab = new TableroTankFighters(new TankQuieto(200), new TankQuieto(200));
-			f.setContentPane(Tab);
-		   	f.validate(); //repinta
+	    	 TableroTankFighters Tab = new TableroTankFighters(new TankToli(), new TankQuieto(200));
+				 
+	    	//TableroTankFighters Tab = new TableroTankFighters(new TankQuieto(200), new TankQuieto(200));
+			 f.setContentPane(Tab);
+		     
+		     f.setVisible(true);
+		 //  	f.validate(); //repinta
+		     //descomenta para solo pintar 
+		   // if (Tab.fin==false){	return;}
+		    Tab.SecuenciaInicio();
+		    
 		   	while(Tab.fin == false){
 		   	
 		   	Tab.EjecutaTurno();
@@ -131,6 +175,7 @@ public class TableroTankFighters extends JComponent  {
 		   	Tab.repaint();
 	    	 
 		   	}
+		   	Tab.SecuenciaVictoria();
 	    	 
 	     }
 		
@@ -138,6 +183,38 @@ public class TableroTankFighters extends JComponent  {
 		}
 
 	
+	private void SecuenciaInicio() throws Exception {
+		// TODO Auto-generated method stub
+		this.Mensaje.setForeground(Color.BLACK);
+		this.Mensaje.setText("PREPARADOS");
+		this.validate();
+		u.espera(1000);
+		this.Mensaje.setText("LISTOS");
+		this.validate();
+		
+		u.espera(1000);
+		this.Mensaje.setForeground(Color.RED);
+		this.Mensaje.setText("FUEGO!!!!");
+		this.validate();
+		
+		u.espera(1000);
+		
+		this.Mensaje.setText("");
+		this.validate();
+		
+	}
+	
+	private void SecuenciaVictoria() throws Exception {
+		// TODO Auto-generated method stub
+		this.Mensaje.setForeground(Color.GREEN);
+		this.Mensaje.setText("Victoria para el jugador: "+ this.Vencedor.getNombre());
+		this.validate();
+		u.espera(1000);
+		
+		
+	}
+
+
 	void EjecutaTurno() throws Exception{
 		//esperamos el tiempo propicio
 		u.espera((int)(intervalo/this.Factor_tiempo));
@@ -163,7 +240,7 @@ public class TableroTankFighters extends JComponent  {
 			}
 			//actualizo el x para que lo tenga
 			P[i].x=posiciones[i];
-			u.log(P[i].getNombre()+"_x:"+P[i].x +"\ty:"+P[i].y);
+			//u.log(P[i].getNombre()+"_x:"+P[i].x +"\ty:"+P[i].y);
 			
 			
 			//descienden las recargas
@@ -202,7 +279,7 @@ public class TableroTankFighters extends JComponent  {
 
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
+		super.paint(g);
 		
 		//pintamos los muros
 		for (Muro m : this.Muros){
@@ -219,7 +296,9 @@ public class TableroTankFighters extends JComponent  {
 		g.drawChars(("Victorias="+this.Victorias[1]).toCharArray(), 0, ("Victorias="+this.Victorias[1]).length(), Ancho-20-P[1].getNombre().length()*20, 60);
 		
 		//pintamos el tiempo
-		g.drawString("Tiempo="+df.format(Tiempo), Ancho/2-("Tiempo="+Tiempo).length()*10, 20);
+		this.tiempo.setText(df.format(Tiempo).replace(",", "."));
+		
+		//g.drawString("Tiempo="+df.format(Tiempo), Ancho/2-("Tiempo="+Tiempo).length()*10, 20);
 		
 		//pintamos los Tankes
 		pintaTanks(g);
@@ -232,10 +311,28 @@ public class TableroTankFighters extends JComponent  {
 			v.mueve((int) this.intervalo );
 			
 			boolean boom = false;
-			//colision con otros proyectiles
+			
+			//colision con Jugadores
+			int otro_j=1;
+			for (int j=0; (j<this.P.length) && (boom==false);j++){
+				
+				 if (v.Colision(P[j])){
+					  v.Explota(g);
+					  Victorias[otro_j]++;
+					  this.Vencedor=P[otro_j];  
+					  this.Proyectiles.remove(v);
+					  p1++;boom=true;
+					  this.fin=true;
+					  return;
+				  }
+				 otro_j--;
+			}
+			
+			
+			//colision con otros proyectiles, solo explotan los de un mismo tanke
 			for (int p2=0; (p2<this.Proyectiles.size()) && (boom==false);p2++){
 				Proyectil v2 = this.Proyectiles.get(p2);
-				 if (v.Colision(v2) && p2!=p1){
+				 if (v.Colision(v2) && p2!=p1 && v.Lanzador.equals(v2.Lanzador)){
 					  v.Explota(g);
 					  v2.Explota(g);
 					  this.Proyectiles.remove(v);
@@ -255,19 +352,7 @@ public class TableroTankFighters extends JComponent  {
 				  }
 			}
 			
-			//colision con Jugadores
-			int otro_j=1;
-			for (int j=0; (j<this.P.length) && (boom==false);j++){
-				
-				 if (v.Colision(P[j])){
-					  v.Explota(g);
-					  this.Victorias[j]++;
-					  this.Vencedor=P[otro_j];  
-					  this.Proyectiles.remove(v);
-					  p1++;boom=true;
-				  }
-				 otro_j--;
-			}
+		
 			
 		}
 		
@@ -283,6 +368,8 @@ public class TableroTankFighters extends JComponent  {
 		for (int i=0;i<this.P.length;i++){
 			
 			g.setColor(P[i].getColor());
+			Color c= P[i].getColor();
+			
 			g.fillRect((int)(P[i].x-P[i].Ancho/2),(int) (Alto-P[i].Alto),this.Ancho_tank,this.Alto_tank);
 				
 		}
