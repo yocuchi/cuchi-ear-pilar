@@ -34,7 +34,7 @@ public class TankToli extends TankPlayer {
 	@Override
 	public int getPosInicial() {
 		// TODO Auto-generated method stub
-		return (int) (Math.random()*200);
+		return (int) (200);
 	}
 
 	
