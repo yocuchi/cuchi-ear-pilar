@@ -38,11 +38,11 @@ public class TableroEarBall extends Container  {
 	 * 
 	 */
 	
-	static int Ancho=900;
-	static int Alto=600;
+	int Ancho; // se reciben del constructor
+	int Alto;
 	
-	static int Alto_tank=6;
-	static int Ancho_tank=50;
+	int Alto_Player;// se reciben del constructor
+	int Ancho_Player;
 	
 	static int Ancho_proyectil=8;
 	static int Alto_proyectil=8;
@@ -51,9 +51,6 @@ public class TableroEarBall extends Container  {
 	double Factor_tiempo=2; //factor para que vaya mas rapido
 	double intervalo=50; //ms por cada intervalo de reloj
 	int max_move= 50; //numero de px que se puede mover por segundo
-	
-	
-	 DecimalFormat df = new DecimalFormat("#.#");
 	 
 	List<Proyectil> Proyectiles = new ArrayList<Proyectil>();
 	
@@ -65,38 +62,39 @@ public class TableroEarBall extends Container  {
 	BallPlayer Vencedor;
 	
 	Point [] posiciones; //donde están los tanques
-	static int [] Victorias; //las victorias de cada jugador
 	
-	public String texto_victoria; 
-	boolean fin;
-	
-	JLabel tiempo;
-	JLabel Mensaje;
-	JLabel [] LabelP;
-	
-	
+	DecimalFormat df = new DecimalFormat("#.#");
 	
 	Utilidades u;
 	
-	public TableroEarBall(BallPlayer tankPlayer, BallPlayer tankPlayer2) {
+	public TableroEarBall(BallPlayer tankPlayer, BallPlayer tankPlayer2, int Ancho, int Alto, int Alto_Jugador, int Ancho_Jugador) {
 		// TODO Auto-generated constructor stub
 		
+		this.Ancho=Ancho;
+		this.Alto=Alto;
 		
+		this.Alto_Player=Alto_Jugador;
+		this.Ancho_Player=Ancho_Jugador;
 		
 		P= new BallPlayer[2];
 		P[0]=tankPlayer;
 		P[1]=tankPlayer2;
 		
-		P[0].Ancho=this.Ancho_tank;
-		P[1].Ancho=this.Ancho_tank;
+		P[0].Ancho=this.Ancho_Player;
+		P[1].Ancho=this.Ancho_Player;
 		
-		P[0].Alto=this.Alto_tank;
-		P[1].Alto=this.Alto_tank;
+		P[0].Alto=this.Alto_Player;
+		P[1].Alto=this.Alto_Player;
 		
-		P[0].y=Alto-2-this.Alto_tank/2-1;
-		P[1].y=Alto-2-this.Alto_tank/2-1;
+		P[0].y=Alto/2;
+		P[1].y=Alto/2;
 		
-		this.setBounds(50, 50, Ancho+100, Alto+150);
+		P[0].x=10;
+		P[1].x=Ancho-10;
+		
+		//this.setBounds(0, 0, Ancho, Alto);
+		
+		this.setSize(Ancho, Alto);
 	
 		//relleno los campos estáticos
 		posiciones = new Point[2];
@@ -111,8 +109,8 @@ public class TableroEarBall extends Container  {
 		//añado el muro del medio, ojo que los muros hay que dar la corrdenada central
 		//this.Muros.add(new Muro(Ancho/2-2, Alto-10, 4, 20,Color.black));
 		//y las paredes superiores e inferiores
-		this.Muros.add(new Muro(Ancho/2+50, 0+110, Ancho, 3, Color.black));
-		this.Muros.add(new Muro(Ancho/2+50, Alto+110, Ancho, 3, Color.black));
+		this.Muros.add(new Muro(Ancho/2, 0, Ancho, 3, Color.black));
+		this.Muros.add(new Muro(Ancho/2, Alto, Ancho, 3, Color.black));
 		
 		//y las porterias
 		this.Porterias.add(new Porteria(50, Alto/2+110, 3, Alto+2, Color.green,P[0]));
@@ -121,127 +119,15 @@ public class TableroEarBall extends Container  {
 				
 		
 		
-		//añado los labels
-		this.tiempo=new JLabel("0.0");
-		this.tiempo.setBounds(0, 30, Ancho,60);
-		this.tiempo.setHorizontalAlignment(SwingConstants.CENTER);
-		this.tiempo.setFont(new Font("Serif", Font.BOLD, 48));
-		this.add(this.tiempo);
-		
-		//añado los labels
-		this.Mensaje=new JLabel("PREPARADOS?");
-		this.Mensaje.setBounds(0, Alto/2, Ancho,60);
-		this.Mensaje.setHorizontalAlignment(SwingConstants.CENTER);
-		this.Mensaje.setFont(new Font("Serif", Font.BOLD, 48));
-		this.add(this.Mensaje);
-		
-		//añado los labels
-		this.LabelP = new JLabel[2];
-		
-		this.LabelP[0]= new JLabel("Player 1");
-		this.LabelP[0].setBounds(20,10, Ancho/2,100);
-		this.LabelP[0].setHorizontalAlignment(SwingConstants.LEFT);
-		this.LabelP[0].setFont(new Font("Serif", Font.BOLD, 18));
-		this.add(this.LabelP[0]);
-
-		this.LabelP[1]= new JLabel("Player 2");
-		this.LabelP[1].setBounds(600,10, 200,100);
-		this.LabelP[1].setHorizontalAlignment(SwingConstants.RIGHT);
-		this.LabelP[1].setFont(new Font("Serif", Font.BOLD, 18));
-		this.add(this.LabelP[1]);
-		
-		
-		//
-		//JButton b = new JButton("OKKKKKK");
-		//b.setBounds(250 + 10, 50 + 10,
-        //           300, 400);
-	    //  f.getContentPane().add(b);
-	     //Demo.addComponentsToPane(Tab);
-  	 //this.add(b);
 		
 	
 		 
 	}
 
 
-	public static void main(String[] args) throws Exception{
-		
-		
-		
-		JFrame f = new JFrame();
-	    f.setTitle("EARBALL");
-	    f.setBounds(50,50,Ancho+100,Alto+150);
-	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	      
-	     
-	    
-	    Victorias = new int [2];
-		Victorias[0]=0; Victorias[1]=0;
-	   	
-	     //empieza el juego
-	     while ((Victorias[0]<2) && (Victorias[1]<2)){
-	    	 
-	    	 TableroEarBall Tab = new TableroEarBall(new BallToli(), new BallToli());
-				 
-	    	//TableroTankFighters Tab = new TableroTankFighters(new TankQuieto(200), new TankQuieto(200));
-			 f.setContentPane(Tab);
-		     
-		     f.setVisible(true);
-		 //  	f.validate(); //repinta
-		     //descomenta para solo pintar 
-		   // if (Tab.fin==false){	return;}
-		    Tab.SecuenciaInicio();
-		    
-		   	while(Tab.fin == false){
-		   	
-		   	Tab.EjecutaTurno();
-		   	f.validate();
-		   	Tab.repaint();
-	    	 
-		   	}
-		   	Tab.SecuenciaVictoria();
-	    	 
-	     }
-		
-		
-		}
-
 	
-	private void SecuenciaInicio() throws Exception {
-		// TODO Auto-generated method stub
-		this.Mensaje.setForeground(Color.BLACK);
-		this.Mensaje.setText("PREPARADOS");
-		this.validate();
-		u.espera(1000);
-		this.Mensaje.setText("LISTOS");
-		this.validate();
-		
-		u.espera(1000);
-		this.Mensaje.setForeground(Color.RED);
-		this.Mensaje.setText("FUEGO!!!!");
-		this.validate();
-		
-		u.espera(1000);
-		
-		this.Mensaje.setText("");
-		this.validate();
-		
-		
-		//creamos la bola del saque
-		
-		
-	}
 	
-	private void SecuenciaVictoria() throws Exception {
-		// TODO Auto-generated method stub
-		this.Mensaje.setForeground(Color.GREEN);
-		this.Mensaje.setText("Victoria para el jugador: "+ this.Vencedor.getNombre());
-		this.validate();
-		u.espera(1000);
-		
-		
-	}
-
+	
 
 	void EjecutaTurno() throws Exception{
 		//esperamos el tiempo propicio
@@ -320,15 +206,6 @@ public class TableroEarBall extends Container  {
 			p.pintame(g);
 		}
 
-		//pintamos los nombres
-		this.LabelP[0].setText("<HTML>"+P[0].getNombre()+"<br/>"+P[0].getEquipo()+"<br/> Goles:"+this.Victorias[0]+"</html>");
-		
-		this.LabelP[1].setText("<HTML>"+P[1].getNombre()+"<br/>"+P[1].getEquipo()+"<br/> Goles:"+this.Victorias[1]+"</html>");
-		
-		
-		
-		//pintamos el tiempo
-		this.tiempo.setText(df.format(Tiempo).replace(",", "."));
 		
 		//g.drawString("Tiempo="+df.format(Tiempo), Ancho/2-("Tiempo="+Tiempo).length()*10, 20);
 		
@@ -350,11 +227,11 @@ public class TableroEarBall extends Container  {
 				
 				 if (v.Colision(P[j])){
 					  v.Explota(g);
-					  Victorias[otro_j]++;
+					  // OJOOOO  Victorias[otro_j]++;
 					  this.Vencedor=P[otro_j];  
 					  this.Proyectiles.remove(v);
 					  p1++;boom=true;
-					  this.fin=true;
+					  //this.fin=true;
 					  return;
 				  }
 				 otro_j--;
@@ -403,7 +280,7 @@ public class TableroEarBall extends Container  {
 			g.setColor(P[i].getColor());
 			Color c= P[i].getColor();
 			
-			g.fillRect((int)(P[i].x-P[i].Ancho/2),(int) (Alto-P[i].Alto),this.Ancho_tank,this.Alto_tank);
+			g.fillRect((int)(P[i].x-P[i].Ancho/2),(int) (Alto-P[i].Alto),this.Ancho_Player,this.Alto_Player);
 				
 		}
 	

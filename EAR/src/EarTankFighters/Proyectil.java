@@ -12,6 +12,12 @@ public class Proyectil extends ObjetoTablero {
 	double velocidad_x, velocidad_y;
 	TankPlayer Lanzador;
 
+	public TankPlayer getLanzador() {
+		return Lanzador;
+	}
+
+
+
 	public Proyectil(int velocidad_x, int velocidad_y, TankPlayer lanzador) {
 		
 		this.velocidad_x = velocidad_x;

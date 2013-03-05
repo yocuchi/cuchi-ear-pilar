@@ -34,7 +34,7 @@ public class TankMaster extends TankPlayer {
 	@Override
 	public int getPosInicial() {
 		// TODO Auto-generated method stub
-		return (int) (200);
+		return (int) (100);
 	}
 
 	
@@ -48,32 +48,38 @@ public class TankMaster extends TankPlayer {
 	public int muevete(Proyectil[] Proyectiles, Muro[] Muros, int[] posiciones,
 			boolean izquierda) {
 		
-		//calculo el proyectil mas cercano
-		Proyectil P;
-		P= Proyectiles[0];
-		int distancia=CalculaDistancia(P);
+		//calculo el proyectil enemigo mas cercano
+		Proyectil P = null;
+		//P= Proyectiles[0];
+		int distancia=100000;
 		
-		for (int i=1; i< Proyectiles.length; i++){
+		for (int i=0; i< Proyectiles.length; i++){
+			if (Proyectiles[i].getLanzador().equals(this)==false){
 			if (CalculaDistancia(Proyectiles[i])<distancia){
 				distancia=CalculaDistancia(Proyectiles[i]);
 				P= Proyectiles[i];
 			}
+			}
 			
 		}
 		//ya tengo el proyectil mas cercano
-		
+		if (distancia < 50){
 		//calculo el angulo
 		int angulo=CalculaAngulo(P);
 		System.out.println("Angulo="+ angulo);
 		if (angulo < 60 || angulo > 150){
 			//huye del proyectil
-			return (int) (Math.signum(Math.cos(angulo))*10);
+			return -(int) (Math.signum(Math.cos(Math.toRadians(angulo)))*10);
 			
 		}else
-		{
-			return -(int) (Math.signum(Math.cos(angulo))*10);
+		{ //acercate al muro
+			return (int) (Math.signum(Math.cos(Math.toRadians(angulo)))*10);
 			
+		}}
+		else{
+			return 0;
 		}
+		
 		}
 
 	private int CalculaDistancia(ObjetoTablero o){
@@ -91,10 +97,20 @@ public class TankMaster extends TankPlayer {
 	@Override
 	public Proyectil dispara(Proyectil[] proyectils, Muro[] muros,
 			int[] posiciones, boolean izquierda) {
-
-		if (izquierda){ return  new Proyectil(30,50,this);}
+		
+		//soy el
+		int soy=0;
+		if (izquierda==false) soy=1;
+		
+		//voy a ver a que distancia x esta el enemigo
+		
+		int distancia=posiciones[0]+posiciones[1]; 
+		
+		double Vy=10;
+		double Vx=distancia* Math.sqrt(2*Vy/ (9));
+		if (izquierda){ return  new Proyectil((int)Vx,(int)Vy,this);}
 		else {
-			return new Proyectil(-80,80,this);
+			return new Proyectil((int)Vx,(int)Vy,this);
 		}
 		
 	}
