@@ -52,6 +52,8 @@ public class TankToli extends TankPlayer {
 	@Override
 	public int muevete(Proyectil[] Proyectiles, Muro[] Muros, int[] posiciones,
 			boolean izquierda) {
+		
+		
 		contador--;
 		if (contador<-30) contador=30;
 		if (izquierda) return -contador;
