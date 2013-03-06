@@ -9,8 +9,10 @@ public class BallToli extends BallPlayer {
 	
 	
 	public BallToli() {
+		super();
 		this.Equipo="FRAN";
 		this.Nombre="Toli";
+		
 		
 		
 	}
@@ -22,11 +24,7 @@ public class BallToli extends BallPlayer {
 		return 0;
 	}
 
-	@Override
-	public int getPosInicial() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	@Override
 	public void pintame(Graphics g) {

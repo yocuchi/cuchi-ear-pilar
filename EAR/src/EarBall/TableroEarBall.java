@@ -67,7 +67,8 @@ public class TableroEarBall extends Container  {
 	
 	Utilidades u;
 	
-	public TableroEarBall(BallPlayer tankPlayer, BallPlayer tankPlayer2, int Ancho, int Alto, int Alto_Jugador, int Ancho_Jugador) {
+	public TableroEarBall(BallPlayer tankPlayer, BallPlayer tankPlayer2, 
+			int Ancho, int Alto, int Ancho_Jugador, int Alto_Jugador) {
 		// TODO Auto-generated constructor stub
 		
 		this.Ancho=Ancho;
@@ -77,20 +78,33 @@ public class TableroEarBall extends Container  {
 		this.Ancho_Player=Ancho_Jugador;
 		
 		P= new BallPlayer[2];
+		
 		P[0]=tankPlayer;
 		P[1]=tankPlayer2;
 		
 		P[0].Ancho=this.Ancho_Player;
 		P[1].Ancho=this.Ancho_Player;
 		
+		
+		
+		
 		P[0].Alto=this.Alto_Player;
 		P[1].Alto=this.Alto_Player;
 		
-		P[0].y=Alto/2;
 		P[1].y=Alto/2;
+		P[0].y=Alto/2+5;
+		
+		
+		System.out.println("==============");
+		System.out.println(P[0]);
+		System.out.println(P[1]);
 		
 		P[0].x=10;
 		P[1].x=Ancho-10;
+		
+		System.out.println("==============");
+		System.out.println(P[0]);
+		System.out.println(P[1]);
 		
 		//this.setBounds(0, 0, Ancho, Alto);
 		
@@ -98,8 +112,8 @@ public class TableroEarBall extends Container  {
 	
 		//relleno los campos estáticos
 		posiciones = new Point[2];
-		posiciones[0]= new Point(5,Alto/2);
-		posiciones[1]= new Point(Ancho-5,Alto/2);
+		posiciones[0]= new Point((int)P[0].x, (int)P[0].y);
+		posiciones[1]= new Point((int)P[1].x, (int)P[1].y);
 		
 		
 		 
@@ -117,6 +131,8 @@ public class TableroEarBall extends Container  {
 		this.Porterias.add(new Porteria(Ancho, Alto/2, 3, Alto, Color.gray,P[1]));
 		
 				
+		System.out.println(P[0]);
+		System.out.println(P[1]);
 		
 		
 		
@@ -214,6 +230,7 @@ public class TableroEarBall extends Container  {
 		
 		//pintamos  y movemos los proyectiles
 		//Muevo los proyectiles
+		/*
 		for (int p1=0;p1<this.Proyectiles.size();p1++){
 			Proyectil v = this.Proyectiles.get(p1);
 			v.pintame(g);
@@ -264,7 +281,7 @@ public class TableroEarBall extends Container  {
 		
 			
 		}
-		
+		*/
 				
 		
 		
@@ -279,8 +296,11 @@ public class TableroEarBall extends Container  {
 			
 			g.setColor(P[i].getColor());
 			Color c= P[i].getColor();
-			 
-			g.fillRect((int)(P[i].x-P[i].Ancho/2),(int) (Alto-P[i].Alto),this.Ancho_Player,this.Alto_Player);
+			System.out.println(P[i].x+";"+P[i].y); 
+			g.fillRect(
+					(int)(P[i].x-P[i].Ancho/2),
+					(int) (P[i].y-P[i].Alto/2),
+					this.Ancho_Player,this.Alto_Player);
 				
 		}
 	

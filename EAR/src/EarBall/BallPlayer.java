@@ -6,6 +6,14 @@ import java.util.List;
 
 public abstract class BallPlayer extends ObjetoTablero{
 
+	@Override
+	public String toString() {
+		return "BallPlayer [partida=" + partida + ", Nombre=" + Nombre
+				+ ", Equipo=" + Equipo + ", color=" + color + ", x=" + x
+				+ ", y=" + y + ", Ancho=" + Ancho + ", Alto=" + Alto
+				+ ", Explota=" + Explota + "]";
+	}
+
 	public TableroEarBall partida;
 	public String Nombre;
 	public String Equipo;
@@ -38,7 +46,7 @@ public abstract class BallPlayer extends ObjetoTablero{
     //indica la variacion en int respecto de la posicion inicial
     //para acceder a las variables de la partida, se pasa la partida como argumento
 	
-	public abstract int getPosInicial();
+	
 
 	public Color getColor() {
 		// TODO Auto-generated method stub
@@ -55,7 +63,7 @@ public abstract class BallPlayer extends ObjetoTablero{
 	@Override
 	public void pintame(Graphics g) {
 		// TODO Auto-generated method stub
-		g.drawRect((int)this.x,(int) this.y,(int) this.Alto,(int) this.Ancho);
+		g.drawRect((int)this.x,(int) this.y,(int) this.Alto/2,(int) this.Ancho/2);
 		
 	}
 
