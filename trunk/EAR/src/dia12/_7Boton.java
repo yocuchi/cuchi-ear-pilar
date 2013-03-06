@@ -1,6 +1,5 @@
 package dia12;
 
-import java.awt.*;
 import javax.swing.*;
 public class _7Boton {
    public static void main(String[] a) {

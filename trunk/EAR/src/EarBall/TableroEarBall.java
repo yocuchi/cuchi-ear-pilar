@@ -113,8 +113,8 @@ public class TableroEarBall extends Container  {
 		this.Muros.add(new Muro(Ancho/2, Alto, Ancho, 3, Color.black));
 		
 		//y las porterias
-		this.Porterias.add(new Porteria(50, Alto/2+110, 3, Alto+2, Color.green,P[0]));
-		this.Porterias.add(new Porteria(Ancho+50, Alto/2+110, 3, Alto+2, Color.green,P[1]));
+		this.Porterias.add(new Porteria(0, Alto/2, 3, Alto, Color.gray,P[0]));
+		this.Porterias.add(new Porteria(Ancho, Alto/2, 3, Alto, Color.gray,P[1]));
 		
 				
 		
@@ -279,7 +279,7 @@ public class TableroEarBall extends Container  {
 			
 			g.setColor(P[i].getColor());
 			Color c= P[i].getColor();
-			
+			 
 			g.fillRect((int)(P[i].x-P[i].Ancho/2),(int) (Alto-P[i].Alto),this.Ancho_Player,this.Alto_Player);
 				
 		}
