@@ -10,15 +10,17 @@ public class Proyectil extends ObjetoTablero {
 	 */
 	
 	double velocidad_x, velocidad_y;
-	BallPlayer Lanzador;
+	
 
-	public Proyectil(int velocidad_x, int velocidad_y, BallPlayer lanzador) {
+	public Proyectil(int velocidad_x, int velocidad_y,
+			int x, int y, int Ancho, int Alto) {
 		
 		this.velocidad_x = velocidad_x;
 		this.velocidad_y = velocidad_y;
-		this.Ancho=TableroEarBall.Ancho_proyectil;
-		this.Alto=TableroEarBall.Alto_proyectil;
-		Lanzador = lanzador;
+		this.Ancho=Ancho;
+		this.Alto=Alto;
+		this.x=x;
+		this.y=y;
 	}
 
 
@@ -37,8 +39,15 @@ public class Proyectil extends ObjetoTablero {
 		//la formula matematica es
 		double delta_t= (double)(ms)/1000;
 		this.x= (this.x + this.velocidad_x * delta_t);
-		this.y= (this.y - this.velocidad_y * delta_t + 4.5 *delta_t*delta_t);
-		this.velocidad_y= (this.velocidad_y - 9*delta_t);
+		this.y= (this.y + this.velocidad_y * delta_t );
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Proyectil [velocidad_x=" + velocidad_x + ", velocidad_y="
+				+ velocidad_y + ", x=" + x + ", y=" + y + "]";
 	}
 
 
@@ -47,7 +56,7 @@ public class Proyectil extends ObjetoTablero {
 	public void pintame(Graphics g) {
 		// TODO Auto-generated method stub
 		
-		g.setColor(Lanzador.getColor());
+		g.setColor(Color.black);
 		g.fillOval((int)(x-Ancho/2), (int) (y -Alto/2),
 				(int)Ancho,(int) Alto);
 		g.setColor(Color.black);

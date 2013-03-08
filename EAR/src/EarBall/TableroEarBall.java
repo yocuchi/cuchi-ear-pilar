@@ -91,20 +91,15 @@ public class TableroEarBall extends Container  {
 		P[0].Alto=this.Alto_Player;
 		P[1].Alto=this.Alto_Player;
 		
+		
+		P[0].y=Alto/2;
 		P[1].y=Alto/2;
-		P[0].y=Alto/2+5;
 		
 		
-		System.out.println("==============");
-		System.out.println(P[0]);
-		System.out.println(P[1]);
 		
 		P[0].x=10;
 		P[1].x=Ancho-10;
 		
-		System.out.println("==============");
-		System.out.println(P[0]);
-		System.out.println(P[1]);
 		
 		//this.setBounds(0, 0, Ancho, Alto);
 		
@@ -130,10 +125,9 @@ public class TableroEarBall extends Container  {
 		this.Porterias.add(new Porteria(0, Alto/2, 3, Alto, Color.gray,P[0]));
 		this.Porterias.add(new Porteria(Ancho, Alto/2, 3, Alto, Color.gray,P[1]));
 		
-				
-		System.out.println(P[0]);
-		System.out.println(P[1]);
-		
+		// y la bola
+		this.Proyectiles.add(new Proyectil((int)(Math.random()*100), (int)(Math.random()*100),
+									Ancho/2, Alto/2, 20, 20));
 		
 		
 	
@@ -147,8 +141,24 @@ public class TableroEarBall extends Container  {
 
 	void EjecutaTurno() throws Exception{
 		//esperamos el tiempo propicio
-		u.espera((int)(intervalo/this.Factor_tiempo));
-		u.log("Segundo "+ df.format( this.Tiempo));
+		
+		for (Proyectil P : this.Proyectiles){
+		
+			//ver si colisiona con muros
+			for (int m=0; m<this.Muros.size() ;m++){
+				u.log("moviendo bola");
+				P.mueve((int) this.intervalo );
+				System.out.println(P.toString());
+				Muro m1 = this.Muros.get(m);
+				 if (P.Colision(m1)){
+					  u.log("Choco con muro");
+					 P.velocidad_y=-P.velocidad_y; 
+				 }
+			}
+			
+		}
+		
+		
 		/*
 		//vamos a mover los tanques
 		for( int i=0; i< this.P.length;i++){
@@ -220,6 +230,14 @@ public class TableroEarBall extends Container  {
 		//pintamos las porterias
 		for (Porteria p : this.Porterias){
 			p.pintame(g);
+		}
+
+		
+		//proyectil P
+		for (Proyectil P : this.Proyectiles){
+			P.mueve((int) this.intervalo );
+			System.out.println(P.toString());
+			P.pintame(g);
 		}
 
 		
