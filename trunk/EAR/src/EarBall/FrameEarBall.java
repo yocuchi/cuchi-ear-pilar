@@ -229,50 +229,8 @@ public class FrameEarBall extends Container  {
 		//esperamos el tiempo propicio
 		u.espera((int)(intervalo/this.Factor_tiempo));
 		u.log("Segundo "+ df.format( this.Tiempo));
-		/*
-		//vamos a mover los tanques
-		for( int i=0; i< this.P.length;i++){
-			BallPlayer TP=P[i];
-			//puedes moverte?
-			int mov_P=TP.muevete(getCopiaProyectiles(),getCopiaMuros(),
-								posiciones.clone(),(posiciones[i]<Ancho/2));
-			int mov= (int) (Math.signum(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
-			
-			int old_pos=this.posiciones[i];
-			this.posiciones[i]=posiciones[i]+mov;
-			//ojo no te salgas, ver las colisiones con los muros
-			for (int m=0; m<this.Muros.size() ;m++){
-				Muro m1 = this.Muros.get(m);
-				 if (P[i].Colision(m1)){
-					  u.log("Choco con muro");
-					  this.posiciones[i]=old_pos; //para que no te muevas
-				  }
-			}
-			//actualizo el x para que lo tenga
-			P[i].x=posiciones[i];
-			//u.log(P[i].getNombre()+"_x:"+P[i].x +"\ty:"+P[i].y);
-			
-			
-			//descienden las recargas
-			this.Segundos_pdte_recarga[i]--;
-			if (this.Segundos_pdte_recarga[i]<=0){
-				//le pido un disparo
-				Proyectil proy;
-				proy=P[i].dispara(getCopiaProyectiles(),getCopiaMuros(),
-						posiciones.clone(),(posiciones[i]<Ancho/2));
-				if (proy!=null){
-				proy.x=P[i].x;
-				proy.y=P[i].y-this.Alto_tank/2-proy.Alto/2;
-				this.Proyectiles.add(proy);
-				this.Segundos_pdte_recarga[i]=(int) (this.tiempo_recarga*1000/this.intervalo);
-				}
-			}
 		
-			
-		}
-		*/
-		//que pase el tiempo
-		
+		this.Tab.EjecutaTurno();
 		this.Tiempo=this.Tiempo+ (double) this.intervalo/1000;
 		
 	}
