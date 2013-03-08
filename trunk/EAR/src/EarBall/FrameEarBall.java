@@ -40,8 +40,8 @@ public class FrameEarBall extends Container  {
 	
 	TableroEarBall Tab;
 	
-	static int Ancho=900; //ancho del tablero
-	static int Alto=600; //alto del tablero
+	static int Ancho=500; //ancho del tablero
+	static int Alto=300; //alto del tablero
 	
 	static int Alto_tank=50;
 	static int Ancho_tank=5;
@@ -73,7 +73,7 @@ public class FrameEarBall extends Container  {
 	public FrameEarBall(BallPlayer BPlayer, BallPlayer BPlayer2) {
 		// TODO Auto-generated constructor stub
 		
-		Tab= new TableroEarBall(BPlayer,BPlayer,Ancho,Alto,Ancho_tank,Alto_tank);
+		Tab= new TableroEarBall(BPlayer,BPlayer2,Ancho,Alto,Ancho_tank,Alto_tank);
 		
 		
 		
@@ -145,11 +145,14 @@ public class FrameEarBall extends Container  {
 	    
 	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	      
-	    FrameEarBall FeB= new FrameEarBall(new BallToli(), new BallToli()); 
+	    FrameEarBall FeB= new FrameEarBall(new BallToli(), new BallReToli()); 
 	    
 	    Victorias = new int [2];
 		Victorias[0]=0; Victorias[1]=0;
-	   	
+		System.out.println("==============");
+		System.out.println(FeB.Tab.P[0]);
+		System.out.println(FeB.Tab.P[1]);
+		
 	     //empieza el juego
 	     while ((Victorias[0]<2) && (Victorias[1]<2)){
 	    	 
