@@ -52,7 +52,7 @@ public class TankQuieto extends TankPlayer {
 	
 
 	@Override
-	public int muevete(Proyectil[] Proyectiles, Muro[] Muros, int[] posiciones,
+	public int muevete(Proyectil[] Proyectiles, Muro[] Muros, double[] posiciones,
 			boolean izquierda) {
 		
 return 0;
@@ -62,7 +62,7 @@ return 0;
 
 	@Override
 	public Proyectil dispara(Proyectil[] proyectils, Muro[] muros,
-			int[] posiciones, boolean izquierda) {
+			double[] posiciones, boolean izquierda) {
 			
 		if (izquierda==true){return new Proyectil(36,50,this);}
 		else{return null;}

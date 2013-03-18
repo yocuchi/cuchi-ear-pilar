@@ -11,8 +11,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="X:/personajes.jar"/>
-	<classpathentry kind="lib" path="X:/Flaranplayers.jar"/>
-	<classpathentry kind="lib" path="X:/alpha.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

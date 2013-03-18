@@ -50,7 +50,7 @@ public class TankToli extends TankPlayer {
 	
 
 	@Override
-	public int muevete(Proyectil[] Proyectiles, Muro[] Muros, int[] posiciones,
+	public int muevete(Proyectil[] Proyectiles, Muro[] Muros, double[] posiciones,
 			boolean izquierda) {
 		
 		
@@ -64,11 +64,11 @@ public class TankToli extends TankPlayer {
 
 	@Override
 	public Proyectil dispara(Proyectil[] proyectils, Muro[] muros,
-			int[] posiciones, boolean izquierda) {
+			double[] posiciones, boolean izquierda) {
 
 		if (izquierda){ return  new Proyectil(30,50,this);}
 		else {
-			return new Proyectil(-80,80,this);
+			return new Proyectil(-40,30,this);
 		}
 		
 	}

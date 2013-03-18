@@ -40,6 +40,27 @@ public class TableroTankFighters extends Container  {
 	static int Ancho=800;
 	static int Alto=800;
 	
+	public static int getAncho() {
+		return Ancho;
+	}
+
+
+	public static int getAlto() {
+		return Alto;
+	}
+
+
+	public static int getAlto_tank() {
+		return Alto_tank;
+	}
+
+
+	public static int getAlto_proyectil() {
+		return Alto_proyectil;
+	}
+
+
+
 	static int Alto_tank=10;
 	static int Ancho_tank=10;
 	
@@ -48,8 +69,8 @@ public class TableroTankFighters extends Container  {
 	
 	double Tiempo;
 	double Factor_tiempo=2; //factor para que vaya mas rapido
-	double intervalo=50; //ms por cada intervalo de reloj
-	int tiempo_recarga=3; //Segundos para recargar
+	double intervalo=10; //ms por cada intervalo de reloj
+	int tiempo_recarga=1; //Segundos para recargar
 	int [] Segundos_pdte_recarga; //segundo pendientes para acabar la recarga
 	int max_move= 50; //numero de px que se puede mover por segundo
 	
@@ -63,7 +84,7 @@ public class TableroTankFighters extends Container  {
 	TankPlayer [] P;
 	TankPlayer Vencedor;
 	
-	int [] posiciones; //donde están los tanques
+	double[] posiciones; //donde están los tanques
 	static int [] Victorias; //las victorias de cada jugador
 	
 	public String texto_victoria; 
@@ -96,7 +117,7 @@ public class TableroTankFighters extends Container  {
 		this.setBounds(0, 0, Ancho, Alto);
 	
 		//relleno los campos estáticos
-		posiciones = new int[2];
+		posiciones = new double[2];
 		posiciones[0]=Ancho/2-P[0].getPosInicial();
 		posiciones[1]=P[1].getPosInicial()+Ancho/2;
 	
@@ -107,7 +128,7 @@ public class TableroTankFighters extends Container  {
 		u= new Utilidades();
 		
 		//añado el muro del medio, ojo que los muros hay que dar la corrdenada central
-		this.Muros.add(new Muro(Ancho/2-2, Alto-10, 4, 20,Color.black));
+		this.Muros.add(new Muro(Ancho/2-4, Alto-10, 8, 20,Color.black));
 		//y la base
 		this.Muros.add(new Muro(Ancho/2, Alto+1, Ancho, 1,Color.LIGHT_GRAY));
 		
@@ -125,17 +146,7 @@ public class TableroTankFighters extends Container  {
 		this.Mensaje.setFont(new Font("Serif", Font.BOLD, 48));
 		this.add(this.Mensaje);
 		
-		
-		
-		
-		//
-		//JButton b = new JButton("OKKKKKK");
-		//b.setBounds(250 + 10, 50 + 10,
-        //           300, 400);
-	    //  f.getContentPane().add(b);
-	     //Demo.addComponentsToPane(Tab);
-  	 //this.add(b);
-		
+	
 	
 		 
 	}
@@ -158,7 +169,7 @@ public class TableroTankFighters extends Container  {
 	     //empieza el juego
 	     while ((Victorias[0]<2) && (Victorias[1]<2)){
 	    	 
-	    	 TableroTankFighters Tab = new TableroTankFighters(new TankToli(), new TankMaster());
+	    	 TableroTankFighters Tab = new TableroTankFighters(new TankMaster(), new TankMaster());
 				 
 	    	//TableroTankFighters Tab = new TableroTankFighters(new TankQuieto(200), new TankQuieto(200));
 			 f.setContentPane(Tab);
@@ -219,7 +230,7 @@ public class TableroTankFighters extends Container  {
 	void EjecutaTurno() throws Exception{
 		//esperamos el tiempo propicio
 		u.espera((int)(intervalo/this.Factor_tiempo));
-		u.log("Segundo "+ df.format( this.Tiempo));
+		//u.log("Segundo "+ df.format( this.Tiempo));
 		
 		//vamos a mover los tanques
 		for( int i=0; i< this.P.length;i++){
@@ -227,9 +238,9 @@ public class TableroTankFighters extends Container  {
 			//puedes moverte?
 			int mov_P=TP.muevete(getCopiaProyectiles(),getCopiaMuros(),
 								posiciones.clone(),(posiciones[i]<Ancho/2));
-			int mov= (int) (Math.signum(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
+			double mov=  (Math.signum(mov_P) * Math.min(Math.abs(mov_P), this.max_move * this.intervalo/1000));
 			
-			int old_pos=this.posiciones[i];
+			double old_pos=this.posiciones[i];
 			this.posiciones[i]=posiciones[i]+mov;
 			//ojo no te salgas, ver las colisiones con los muros
 			for (int m=0; m<this.Muros.size() ;m++){
@@ -259,6 +270,7 @@ public class TableroTankFighters extends Container  {
 				proy.x=P[i].x;
 				proy.y=P[i].y-this.Alto_tank/2-proy.Alto/2;
 				this.Proyectiles.add(proy);
+				System.out.println("Disparando proyectil con" + proy.toString());
 				this.Segundos_pdte_recarga[i]=(int) (this.tiempo_recarga*1000/this.intervalo);
 				}
 			}
@@ -317,6 +329,8 @@ public class TableroTankFighters extends Container  {
 			
 			boolean boom = false;
 			
+			
+			
 			//colision con Jugadores
 			int otro_j=1;
 			for (int j=0; (j<this.P.length) && (boom==false);j++){
@@ -367,6 +381,11 @@ public class TableroTankFighters extends Container  {
 	}
 	
 	
+
+	public double getTiempo() {
+		return Tiempo;
+	}
+
 
 	public void pintaTanks (Graphics g){
 		//

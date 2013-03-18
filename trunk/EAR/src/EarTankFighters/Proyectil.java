@@ -27,7 +27,14 @@ public class Proyectil extends ObjetoTablero {
 		Lanzador = lanzador;
 	}
 
-
+public Proyectil(double velocidad_x, double velocidad_y, TankPlayer lanzador) {
+		
+		this.velocidad_x = velocidad_x;
+		this.velocidad_y = velocidad_y;
+		this.Ancho=TableroTankFighters.Ancho_proyectil;
+		this.Alto=TableroTankFighters.Alto_proyectil;
+		Lanzador = lanzador;
+	}
 
 	public double getVelocidad_x() {
 		return velocidad_x;
@@ -44,7 +51,7 @@ public class Proyectil extends ObjetoTablero {
 		double delta_t= (double)(ms)/1000;
 		this.x= (this.x + this.velocidad_x * delta_t);
 		this.y= (this.y - this.velocidad_y * delta_t + 4.5 *delta_t*delta_t);
-		this.velocidad_y= (this.velocidad_y - 9*delta_t);
+		this.velocidad_y = (this.velocidad_y - 9*delta_t);
 	}
 
 
@@ -69,6 +76,16 @@ public class Proyectil extends ObjetoTablero {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "Proyectil [velocidad_x=" + velocidad_x + ", velocidad_y="
+				+ velocidad_y + ", Lanzador=" + Lanzador + ", x=" + x + ", y="
+				+ y + ", Ancho=" + Ancho + ", Alto=" + Alto + ", Explota="
+				+ Explota + "]";
+	}
+
+
+
 	public void Explota(Graphics g) {
 		//me aprovecho de las funciones de JAVA 2D
 		g.setColor(Color.RED);

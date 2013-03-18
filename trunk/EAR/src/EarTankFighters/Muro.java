@@ -5,6 +5,13 @@ import java.awt.Graphics;
 
 public class Muro extends ObjetoTablero {
 
+	@Override
+	public String toString() {
+		return "Muro [rompible=" + rompible + ", color=" + color + ", x=" + x
+				+ ", y=" + y + ", Ancho=" + Ancho + ", Alto=" + Alto + "]";
+	}
+
+
 	/**
 	 * @param args
 	 */
