@@ -145,7 +145,7 @@ public class FrameEarBall extends Container  {
 	    
 	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	      
-	    FrameEarBall FeB= new FrameEarBall(new BallToli(), new BallReToli()); 
+	    FrameEarBall FeB= new FrameEarBall(new BallToli(), new BallToli()); 
 	    
 	    Victorias = new int [2];
 		Victorias[0]=0; Victorias[1]=0;
@@ -170,7 +170,7 @@ public class FrameEarBall extends Container  {
 		   	while(FeB.fin == false){
 		   	
 		   	FeB.EjecutaTurno();
-		   	f.validate();
+		    FeB.validate();
 		   	FeB.repaint();
 	    	 
 		   	}
@@ -194,16 +194,16 @@ public class FrameEarBall extends Container  {
 		this.Mensaje.setForeground(Color.BLACK);
 		this.Mensaje.setText("PREPARADOS");
 		this.validate();
-		u.espera(1000);
+		u.espera(100);
 		this.Mensaje.setText("LISTOS");
 		this.validate();
 		
-		u.espera(1000);
+		u.espera(100);
 		this.Mensaje.setForeground(Color.RED);
 		this.Mensaje.setText("FUEGO!!!!");
 		this.validate();
 		
-		u.espera(1000);
+		u.espera(100);
 		
 		this.Mensaje.setText("");
 		this.validate();
@@ -230,7 +230,8 @@ public class FrameEarBall extends Container  {
 		u.espera((int)(intervalo/this.Factor_tiempo));
 		u.log("Segundo "+ df.format( this.Tiempo));
 		
-		this.Tab.EjecutaTurno();
+		
+		
 		this.Tiempo=this.Tiempo+ (double) this.intervalo/1000;
 		
 	}

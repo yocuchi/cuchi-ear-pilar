@@ -2,6 +2,7 @@ package EarBall;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Point2D;
 import java.util.List;
 
 public abstract class BallPlayer extends ObjetoTablero{
@@ -41,12 +42,7 @@ public abstract class BallPlayer extends ObjetoTablero{
 		return Nombre;
 	}
 
-    public abstract int muevete( Proyectil [] Proyectiles, Muro[] Muros,
-			int [] posiciones, boolean izquierda);
-    //indica la variacion en int respecto de la posicion inicial
-    //para acceder a las variables de la partida, se pasa la partida como argumento
-	
-	
+   
 
 	public Color getColor() {
 		// TODO Auto-generated method stub
@@ -66,6 +62,9 @@ public abstract class BallPlayer extends ObjetoTablero{
 		g.drawRect((int)this.x,(int) this.y,(int) this.Alto/2,(int) this.Ancho/2);
 		
 	}
+
+	public abstract Point2D muevete(Proyectil[] Proyectiles, Muro[] Muros,
+			Point2D tu_posicion, Point2D su_posicion, boolean izquierda) ;
 
 	
 	

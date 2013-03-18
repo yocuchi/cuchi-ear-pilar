@@ -18,12 +18,20 @@ public abstract class ObjetoTablero {
 	public double getY() {
 		return y;
 	}
+	public double getAncho() {
+		return Ancho;
+	}
+	
+	public double getAlto() {
+		return Alto;
+	}
+	
 	
 	public abstract void pintame (Graphics g );
 	
 	public final Rectangle AreaImpacto( ){
 		//el x e Y están en medio
-		return new Rectangle((int)(x-Ancho/2),(int) ((int)y-Alto/2),(int)Ancho,(int)Alto);
+		return new Rectangle((int)(x-Ancho/2), (int) ((int)y-Alto/2), (int)Ancho, (int)Alto);
 			
 	}
 	

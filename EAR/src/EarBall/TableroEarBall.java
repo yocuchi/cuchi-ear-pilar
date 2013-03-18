@@ -139,74 +139,6 @@ public class TableroEarBall extends Container  {
 	
 	
 
-	void EjecutaTurno() throws Exception{
-		//esperamos el tiempo propicio
-		
-		for (Proyectil P : this.Proyectiles){
-		
-			//ver si colisiona con muros
-			for (int m=0; m<this.Muros.size() ;m++){
-				u.log("moviendo bola");
-				P.mueve((int) this.intervalo );
-				System.out.println(P.toString());
-				Muro m1 = this.Muros.get(m);
-				 if (P.Colision(m1)){
-					  u.log("Choco con muro");
-					 P.velocidad_y=-P.velocidad_y; 
-				 }
-			}
-			
-		}
-		
-		
-		/*
-		//vamos a mover los tanques
-		for( int i=0; i< this.P.length;i++){
-			BallPlayer TP=P[i];
-			//puedes moverte?
-			int mov_P=TP.muevete(getCopiaProyectiles(),getCopiaMuros(),
-								posiciones.clone(),(posiciones[i]<Ancho/2));
-			int mov= (int) (Math.signum(mov_P)*Math.min(Math.abs(mov_P), this.max_move*this.intervalo/1000));
-			
-			int old_pos=this.posiciones[i];
-			this.posiciones[i]=posiciones[i]+mov;
-			//ojo no te salgas, ver las colisiones con los muros
-			for (int m=0; m<this.Muros.size() ;m++){
-				Muro m1 = this.Muros.get(m);
-				 if (P[i].Colision(m1)){
-					  u.log("Choco con muro");
-					  this.posiciones[i]=old_pos; //para que no te muevas
-				  }
-			}
-			//actualizo el x para que lo tenga
-			P[i].x=posiciones[i];
-			//u.log(P[i].getNombre()+"_x:"+P[i].x +"\ty:"+P[i].y);
-			
-			
-			//descienden las recargas
-			this.Segundos_pdte_recarga[i]--;
-			if (this.Segundos_pdte_recarga[i]<=0){
-				//le pido un disparo
-				Proyectil proy;
-				proy=P[i].dispara(getCopiaProyectiles(),getCopiaMuros(),
-						posiciones.clone(),(posiciones[i]<Ancho/2));
-				if (proy!=null){
-				proy.x=P[i].x;
-				proy.y=P[i].y-this.Alto_tank/2-proy.Alto/2;
-				this.Proyectiles.add(proy);
-				this.Segundos_pdte_recarga[i]=(int) (this.tiempo_recarga*1000/this.intervalo);
-				}
-			}
-		
-			
-		}
-		*/
-		//que pase el tiempo
-		
-		this.Tiempo=this.Tiempo+ (double) this.intervalo/1000;
-		
-	}
-	
 	
 	public Proyectil[] getCopiaProyectiles(){
 		return Proyectiles.toArray(new Proyectil[Proyectiles.size()]);
@@ -236,7 +168,43 @@ public class TableroEarBall extends Container  {
 		//proyectil P
 		for (Proyectil P : this.Proyectiles){
 			P.mueve((int) this.intervalo );
-			System.out.println(P.toString());
+			
+			//Colision con muros
+			for (int m=0; m<this.Muros.size() ;m++){
+				Muro m1 = this.Muros.get(m);
+				 if (P.Colision(m1)){
+					  u.log("Choco con muro");
+					 P.velocidad_y=-P.velocidad_y; 
+				 }
+			}
+			//players
+			int n=2;
+			for (int m=0; m<this.P.length ;m++){
+				n--;
+				BallPlayer p1 = this.P[m];
+				p1.muevete(this.getCopiaProyectiles(), this.getCopiaMuros(), this.posiciones[m], this.posiciones[n], (m==0));
+				//controlo que no se salgan
+				boolean colision=false;
+				for (int mu=0; mu<this.Muros.size() ;mu++){
+					Muro m1 = this.Muros.get(mu);
+					 if (p1.Colision(m1)){
+						 p1.x=this.posiciones[m].getX();
+						 p1.y=this.posiciones[m].getY();
+						 colision=true;
+					 }
+				}
+				if (colision==false){
+					this.posiciones[m]=new Point((int)p1.getX(),(int)p1.getY());
+				}
+				
+				
+				 if (P.Colision(p1)){
+					  u.log("Choco con Player");
+					 P.velocidad_x=-P.velocidad_x; 
+				 }
+			}
+			
+			
 			P.pintame(g);
 		}
 
@@ -314,7 +282,7 @@ public class TableroEarBall extends Container  {
 			
 			g.setColor(P[i].getColor());
 			Color c= P[i].getColor();
-			System.out.println(P[i].x+";"+P[i].y); 
+			//System.out.println(P[i].x+";"+P[i].y); 
 			g.fillRect(
 					(int)(P[i].x-P[i].Ancho/2),
 					(int) (P[i].y-P[i].Alto/2),

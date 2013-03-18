@@ -39,7 +39,7 @@ public abstract class TankPlayer extends ObjetoTablero{
 	}
 
     public abstract int muevete( Proyectil [] Proyectiles, Muro[] Muros,
-			int [] posiciones, boolean izquierda);
+			double[] ds, boolean izquierda);
     //indica la variacion en int respecto de la posicion inicial
     //para acceder a las variables de la partida, se pasa la partida como argumento
 	
@@ -59,7 +59,16 @@ public abstract class TankPlayer extends ObjetoTablero{
 
 	
 	public abstract Proyectil dispara(Proyectil[] proyectils, Muro[] muros,
-										int [] posiciones, boolean izquierda);
+										double[] ds, boolean izquierda);
+
+
+	@Override
+	public String toString() {
+		return "TankPlayer [partida=" + partida + ", Nombre=" + Nombre
+				+ ", Equipo=" + Equipo + ", color=" + color
+				+ ", Ataque_fuerte=" + Ataque_fuerte + ", x=" + x + ", y=" + y
+				+ ", Ancho=" + Ancho + ", Alto=" + Alto + "]";
+	}
 }
 
 
