@@ -10,7 +10,7 @@ import EarTankFighters.Proyectil;
 import EarTankFighters.TableroTankFighters;
 import EarTankFighters.TankPlayer;
 
-public class TankMaster extends TankPlayer {
+public class TankMaster2 extends TankPlayer {
 	
 	int contador;
 	static int cuenta;
@@ -21,7 +21,7 @@ public class TankMaster extends TankPlayer {
 		return null;
 	}
 
-	public TankMaster(){
+	public TankMaster2(){
 		this.Nombre="Tank Master"+ cuenta;
 		this.Equipo="Fran";
 		this.color=Color.pink;
@@ -48,47 +48,66 @@ public class TankMaster extends TankPlayer {
 	public int muevete(Proyectil[] Proyectiles, Muro[] Muros, double[] posiciones,
 			boolean izquierda) {
 		
-		double [] lugares_seguros= new double[400/10];
+		int [] lugares_seguros= new int[400/10];
 		
 		//calculo los lugares seguros por los proyectiles
-		double offset=400;
-		if (izquierda)offset=0;
+		
+		//P= Proyectiles[0];
+		int distancia=100000;
 		
 		for (int i=0; i< Proyectiles.length; i++){
 			//
 			if (Proyectiles[i].getLanzador().equals(this)==false){
-				Proyectil P=Proyectiles[i];
-				double distancia=CalculaDistancia(Proyectiles[i]);
-				//calcular la zona de impacto y si me toca
-				double tiempo_al_suelo=(P.getVelocidad_y()+
-										Math.sqrt(P.getVelocidad_y()*P.getVelocidad_y() + 
-										18 * (this.getY()-P.getY()-this.getAlto()/2-P.getAlto()/2+1)))
-						 				/9; //el -1 no se muy bien porque es, creo que es para la colision y no tangencia.
-				double x_al_suelo=P.getX()+P.getVelocidad_x()*tiempo_al_suelo;
-				
-				
-				
-				//relleno los vacios con lo que va a tardar el proyectil en caer
-				lugares_seguros[(int) (x_al_suelo/10)]=tiempo_al_suelo;
-				
-				//
-			
+			if (CalculaDistancia(Proyectiles[i])<distancia){
+				distancia=CalculaDistancia(Proyectiles[i]);
+				P= Proyectiles[i];
+			}
 			}
 			
 		}
+		//ya tengo el proyectil mas cercano
+		if (P!=null){
+		//calcular la zona de impacto y si me toca
+		double tiempo_al_suelo=(P.getVelocidad_y()+
+								Math.sqrt(P.getVelocidad_y()*P.getVelocidad_y() + 
+								18 * (this.getY()-P.getY()-this.getAlto()/2-P.getAlto()/2+1)))
+				 				/9; //el -1 no se muy bien porque es, creo que es para la colision y no tangencia.
+		double x_al_suelo=P.getX()+P.getVelocidad_x()*tiempo_al_suelo;
+		System.out.println("P=\t"+ P.getVelocidad_y()+"\t"+P.getY()+"\t"+tiempo_al_suelo + "\t"+ x_al_suelo);
 		
-		//ahora a calcular el lugar más proximo con null
-		int Mypos=(int) ((this.getX()-offset)/10);
+		double resta=this.getX()-x_al_suelo;
 		
-		//busco los 0.0d
-		for (int i=0; i<(lugares_seguros.length/2);i++){
-			if (lugares_seguros[Mypos+i]==0.0d) return +10;
-			if (lugares_seguros[Mypos-i]==0.0d) return -10;
+		
+		if ((distancia < 250) && ((Math.abs(resta)-1) < (this.getAncho()/2+20)) ){
+			//Es decir, esta al lado y me va a endiñar
+			System.out.println("PELIGRO A MOVERSE");
+			int cambio=-1;
+			if (izquierda)cambio=1;
 			
+			//angulo de llegada
+			double Angulo =Math.acos((P.getX()-this.getX())*cambio/distancia);
+			System.out.println("Angulo="+Angulo);
+			
+			
+			if (Angulo>Math.PI/5){
+				//en funcion de mi distancia me muevo
+				if (izquierda){
+			return (int) (100 *cambio * Math.signum(resta) * (this.getX()-200) );
+				} else{
+					return (int) (100 *cambio * Math.signum(resta) * (this.getX()-600) );		
+				}
+			}
+			else{ //viene muy bajo, hay que ir hacia el muro
+				return (int) (100 *cambio );	
+			}
+		} 		
+		else{//no esta lejos no me muevo
+			
+				return 0;
+		}
 		}
 		return 0;
-		
-			 
+		 
 	}
 
 	private int CalculaDistancia(ObjetoTablero o){
