@@ -10,7 +10,7 @@ import EarTankFighters.Proyectil;
 import EarTankFighters.TableroTankFighters;
 import EarTankFighters.TankPlayer;
 
-public class TankMaster2 extends TankPlayer {
+public class TankMaster0 extends TankPlayer {
 	
 	int contador;
 	static int cuenta;
@@ -21,7 +21,7 @@ public class TankMaster2 extends TankPlayer {
 		return null;
 	}
 
-	public TankMaster2(){
+	public TankMaster0(){
 		this.Nombre="Tank Master"+ cuenta;
 		this.Equipo="Fran";
 		this.color=Color.pink;

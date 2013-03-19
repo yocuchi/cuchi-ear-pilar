@@ -22,7 +22,7 @@ public class TankMaster extends TankPlayer {
 	}
 
 	public TankMaster(){
-		this.Nombre="Tank Master"+ cuenta;
+		this.Nombre="TM"+ cuenta;
 		this.Equipo="Fran";
 		this.color=Color.pink;
 		contador=10;
@@ -34,7 +34,7 @@ public class TankMaster extends TankPlayer {
 	@Override
 	public int getPosInicial() {
 		// TODO Auto-generated method stub
-		return (int) (Math.random()*390);
+		return (int) (Math.random()*400);
 	}
 
 	
@@ -48,11 +48,23 @@ public class TankMaster extends TankPlayer {
 	public int muevete(Proyectil[] Proyectiles, Muro[] Muros, double[] posiciones,
 			boolean izquierda) {
 		
-		double [] lugares_seguros= new double[400/10];
+		int ancho_hueco=10;
+		
 		
 		//calculo los lugares seguros por los proyectiles
 		double offset=400;
 		if (izquierda)offset=0;
+		
+
+		double [] lugares_seguros= new double[400/ancho_hueco]; //contando con el centro en mypos
+		
+		//Mypos en el array es ceil hasta el offset 
+		int Mypos=(int) Math.ceil((this.getX()-offset-ancho_hueco/2)/ancho_hueco);
+		
+		
+		
+	
+		
 		
 		for (int i=0; i< Proyectiles.length; i++){
 			//
@@ -69,7 +81,11 @@ public class TankMaster extends TankPlayer {
 				
 				
 				//relleno los vacios con lo que va a tardar el proyectil en caer
-				lugares_seguros[(int) (x_al_suelo/10)]=tiempo_al_suelo;
+				if ((0<x_al_suelo) && (x_al_suelo<800)){
+					//complicado, calculo la distancia al origen del intervalo de PX y en funcion de MyPos
+					double d_px= this.getX()-x_al_suelo-ancho_hueco/2;
+				lugares_seguros[Mypos - (int) Math.ceil (d_px/ancho_hueco)]=tiempo_al_suelo;
+				}
 				
 				//
 			
@@ -78,12 +94,20 @@ public class TankMaster extends TankPlayer {
 		}
 		
 		//ahora a calcular el lugar más proximo con null
-		int Mypos=(int) ((this.getX()-offset)/10);
+		System.out.println("Mypos="+Mypos+"\t ");
 		
-		//busco los 0.0d
-		for (int i=0; i<(lugares_seguros.length/2);i++){
-			if (lugares_seguros[Mypos+i]==0.0d) return +10;
-			if (lugares_seguros[Mypos-i]==0.0d) return -10;
+		if(lugares_seguros[Mypos]==0.0d)return 0;
+		
+		//busco los 0.0d hacia la derecha
+		//dos contadores, d para derecha, i para izquierda
+		for (int d=Mypos,i=Mypos; (i>-1) && (d<lugares_seguros.length);d++,i--){
+ 			
+			if (lugares_seguros[d]==0.0d) {
+				System.out.println(this.getNombre()+ "mueve d");
+				return +100;}
+			if (lugares_seguros[i]==0.0d){
+				System.out.println(this.getNombre()+ "mueve d");
+				return -100;}
 			
 		}
 		return 0;
@@ -107,7 +131,7 @@ public class TankMaster extends TankPlayer {
 	public Proyectil dispara(Proyectil[] proyectils, Muro[] muros,
 			double[] posiciones, boolean izquierda) {
 		
-		if (proyectils.length==0){
+		if (proyectils.length<50){
 		//	if (true){
 		//soy el
 		int soy=-1; //estoy en la izquierda
