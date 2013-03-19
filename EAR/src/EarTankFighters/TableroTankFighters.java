@@ -119,8 +119,10 @@ public class TableroTankFighters extends Container  {
 		//relleno los campos estáticos
 		posiciones = new double[2];
 		posiciones[0]=Ancho/2-P[0].getPosInicial();
+		P[0].x=posiciones[0];
 		posiciones[1]=P[1].getPosInicial()+Ancho/2;
-	
+		P[1].x=posiciones[1];
+		
 		this.Segundos_pdte_recarga=new int [2];
 		
 		 
@@ -237,7 +239,7 @@ public class TableroTankFighters extends Container  {
 			TankPlayer TP=P[i];
 			//puedes moverte?
 			int mov_P=TP.muevete(getCopiaProyectiles(),getCopiaMuros(),
-								posiciones.clone(),(posiciones[i]<Ancho/2));
+								posiciones.clone(),(i==0));
 			double mov=  (Math.signum(mov_P) * Math.min(Math.abs(mov_P), this.max_move * this.intervalo/1000));
 			
 			double old_pos=this.posiciones[i];
