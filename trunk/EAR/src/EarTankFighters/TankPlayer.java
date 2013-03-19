@@ -3,6 +3,7 @@ package EarTankFighters;
 import java.awt.Color;
 import java.util.List;
 
+
 public abstract class TankPlayer extends ObjetoTablero{
 
 	public TableroTankFighters partida;

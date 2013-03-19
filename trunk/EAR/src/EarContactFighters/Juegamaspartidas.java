@@ -1,7 +1,6 @@
 package EarContactFighters;
 
 import playerscuchi.Manute;
-import playerscuchi.Toli;
 
 public class Juegamaspartidas {
 
@@ -18,8 +17,8 @@ public class Juegamaspartidas {
 		int[] victorias = new int[2];
 		
 		for (int i =0; i<100;i++){
-			p1=new personajes.Chrisssshtiano();
-			p2=new Flaranplayers.Flaranlabestia();
+			p1=new Manute();
+			p2=new Manute();
 			
 			
 			PartidaContact p=new PartidaContact(p1,p2);
