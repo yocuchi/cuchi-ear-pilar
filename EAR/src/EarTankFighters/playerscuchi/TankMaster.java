@@ -56,14 +56,17 @@ public class TankMaster extends TankPlayer {
 		if (izquierda)offset=0;
 		
 
-		double [] lugares_seguros= new double[400/ancho_hueco]; //contando con el centro en mypos
-		
 		//Mypos en el array es ceil hasta el offset 
 		int Mypos=(int) Math.ceil((this.getX()-offset-ancho_hueco/2)/ancho_hueco);
+				
+		//dos arrays, de huecos a ala derecha y a la izquierda		
 		
+		double [] lugares_seguros_d= 
+				new double[(int) Math.ceil((400-this.getX()+offset)/ancho_hueco)]; 
+		double [] lugares_seguros_i= 
+				new double[(int) Math.ceil((this.getX()-offset)/ancho_hueco)]; 
+		//contando con el cero es mi pos en los dos arrays
 		
-		
-	
 		
 		
 		for (int i=0; i< Proyectiles.length; i++){
@@ -83,8 +86,22 @@ public class TankMaster extends TankPlayer {
 				//relleno los vacios con lo que va a tardar el proyectil en caer
 				if ((0<x_al_suelo) && (x_al_suelo<800)){
 					//complicado, calculo la distancia al origen del intervalo de PX y en funcion de MyPos
-					double d_px= this.getX()-x_al_suelo-ancho_hueco/2;
-				lugares_seguros[Mypos - (int) Math.ceil (d_px/ancho_hueco)]=tiempo_al_suelo;
+					double d_px= this.getX()-x_al_suelo;
+					
+					//en funcion de los rangos, relleno los huecos
+					//si d_px es menor que el hueco/2, relleno los dos ceros
+					if (Math.abs(d_px)<(ancho_hueco/2)){
+						lugares_seguros_d[0]=tiempo_al_suelo;
+						lugares_seguros_i[0]=tiempo_al_suelo;
+					}else
+						//si no relleno a derecha o a izquierda
+					{
+					
+					}
+					
+					
+					
+					lugares_seguros[Mypos - (int) Math.ceil (d_px/ancho_hueco)]=tiempo_al_suelo;
 				}
 				
 				//
@@ -94,7 +111,7 @@ public class TankMaster extends TankPlayer {
 		}
 		
 		//ahora a calcular el lugar más proximo con null
-		System.out.println("Mypos="+Mypos+"\t ");
+		//System.out.println("Mypos="+Mypos+"\t ");
 		
 		if(lugares_seguros[Mypos]==0.0d)return 0;
 		
