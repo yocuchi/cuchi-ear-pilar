@@ -69,13 +69,19 @@ public class TableroTankFighters extends Container  {
 	
 	double Tiempo;
 	double Factor_tiempo=2; //factor para que vaya mas rapido
-	double intervalo=10; //ms por cada intervalo de reloj
-	int tiempo_recarga=1; //Segundos para recargar
+	double intervalo=100; //ms por cada intervalo de reloj
+	int tiempo_recarga=2; //Segundos para recargar
 	int [] Segundos_pdte_recarga; //segundo pendientes para acabar la recarga
 	int max_move= 50; //numero de px que se puede mover por segundo
 	
 	
-	 DecimalFormat df = new DecimalFormat("#.#");
+	 public int getMax_move() {
+		return max_move;
+	}
+
+
+
+	DecimalFormat df = new DecimalFormat("#.#");
 	 
 	List<Proyectil> Proyectiles = new ArrayList<Proyectil>();
 	
@@ -104,6 +110,9 @@ public class TableroTankFighters extends Container  {
 		P= new TankPlayer[2];
 		P[0]=tankPlayer;
 		P[1]=tankPlayer2;
+		
+		P[0].partida=this;
+		P[1].partida=this;
 		
 		P[0].Ancho=this.Ancho_tank;
 		P[1].Ancho=this.Ancho_tank;
@@ -272,7 +281,7 @@ public class TableroTankFighters extends Container  {
 				proy.x=P[i].x;
 				proy.y=P[i].y-this.Alto_tank/2-proy.Alto/2;
 				this.Proyectiles.add(proy);
-				System.out.println("Disparando proyectil con" + proy.toString());
+				//System.out.println("Disparando proyectil con" + proy.toString());
 				this.Segundos_pdte_recarga[i]=(int) (this.tiempo_recarga*1000/this.intervalo);
 				}
 			}
