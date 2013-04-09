@@ -51,7 +51,7 @@ public abstract class BallPlayer extends ObjetoTablero{
 	
 	@Override
 	public final boolean Colision(ObjetoTablero o) {
-		//No colisiona nunca
+		
 		
 		return o.AreaImpacto().intersects(this.AreaImpacto());
 	}

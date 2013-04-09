@@ -61,7 +61,7 @@ public class Proyectil extends ObjetoTablero {
 				(int)Ancho,(int) Alto);
 		g.setColor(Color.black);
 		
-		System.out.println("Soy Pintado "+ this.toString());
+	//	System.out.println("Soy Pintado "+ this.toString());
 		
 	}
 

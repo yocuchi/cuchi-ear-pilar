@@ -15,21 +15,24 @@ public class BallToli extends BallPlayer {
 			Point2D tu_posicion, Point2D su_posicion, boolean izquierda) {
 		// TODO Auto-generated method stub
 		Proyectil P = Proyectiles[0];
-		System.out.println(P.y + " vy "+ P.velocidad_y+ " this " + this.y);
-		if (P.y>this.y){
+		//System.out.println(P.y + " vy "+ P.velocidad_y+ " this " + this.y);
+		
+		return new Point(0,(int) (P.y-this.y));
+		
+		/*if (P.y>this.y){
 			if (P.velocidad_y>0){//sube
 				
-				return new Point(0,10);
+				return new Point(0,(int) (P.y-this.y));
 			}else
 				
 			{//baja
-				return new Point(0,5);
+				return new Point(0,(int) (P.y-this.y));
 			}
 			
 		}else{
 			if (P.velocidad_y>0){//sube
 				
-				return new Point(0,-10);
+				return new Point(0,(int) (P.y-this.y));
 			}else
 			{//baja
 				System.out.println("Porque bajas!!!");
@@ -37,7 +40,7 @@ public class BallToli extends BallPlayer {
 			}
 			
 		}
-		
+		*/
 		
 	}
 

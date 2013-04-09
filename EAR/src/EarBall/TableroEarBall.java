@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,9 +49,9 @@ public class TableroEarBall extends Container  {
 	static int Alto_proyectil=8;
 	
 	double Tiempo;
-	double Factor_tiempo=2; //factor para que vaya mas rapido
-	double intervalo=50; //ms por cada intervalo de reloj
-	int max_move= 150; //numero de px que se puede mover por segundo
+	double Factor_tiempo=4; //factor para que vaya mas rapido
+	double intervalo=100; //ms por cada intervalo de reloj
+	int max_move= 100; //numero de px que se puede mover por segundo
 	 
 	List<Proyectil> Proyectiles = new ArrayList<Proyectil>();
 	
@@ -67,9 +68,72 @@ public class TableroEarBall extends Container  {
 	
 	Utilidades u;
 	
+	
+	
+	public void nuevaPartida()  {
+		//AQUI EL BAKALO
+				try {
+					
+					
+					P[0] = P[0].getClass().getConstructor(null).newInstance(null);
+					P[1] = P[1].getClass().getConstructor(null).newInstance(null);
+					
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				P[0].Ancho=this.Ancho_Player;
+				P[1].Ancho=this.Ancho_Player;
+				
+				
+				
+				
+				P[0].Alto=this.Alto_Player;
+				P[1].Alto=this.Alto_Player;
+				
+				
+				P[0].y=Alto/2;
+				P[1].y=Alto/2;
+				
+				
+				
+				P[0].x=10;
+				P[1].x=Ancho-10;
+				
+				
+				//this.setBounds(0, 0, Ancho, Alto);
+				
+				this.setSize(Ancho, Alto);
+			
+				//relleno los campos estáticos
+				posiciones = new Point[2];
+				posiciones[0]= new Point((int)P[0].x, (int)P[0].y);
+				posiciones[1]= new Point((int)P[1].x, (int)P[1].y);		
+				
+		
+	}
+	
+	
+	
 	public TableroEarBall(BallPlayer tankPlayer, BallPlayer tankPlayer2, 
 			int Ancho, int Alto, int Ancho_Jugador, int Alto_Jugador) {
-		// TODO Auto-generated constructor stub
+		
 		
 		this.Ancho=Ancho;
 		this.Alto=Alto;
@@ -155,10 +219,7 @@ public class TableroEarBall extends Container  {
 		
 		for (Proyectil P : this.Proyectiles){
 			
-			System.out.println(P);
-			System.out.println(this.toString());
 			P.mueve((int) this.intervalo );
-			System.out.println(P);
 			
 			
 			//Colision con muros
@@ -196,7 +257,7 @@ public class TableroEarBall extends Container  {
 					 if (p1.Colision(m1)){
 						 //si colisiona con muro
 						 this.posiciones[m]=old_posciciones;
-						 System.out.println("PLAYER choco con muro");
+						 //System.out.println("PLAYER choco con muro");
 						 colision=true;
 					 }
 				}
@@ -208,9 +269,11 @@ public class TableroEarBall extends Container  {
 					
 				}
 				
+				System.out.println("Ancho"+ p1.Ancho);
 				
+				//Si colisiona con el jugador
 				 if (P.Colision(p1)){
-					  u.log("Choco con Player");
+					 u.log("Choco con Player");
 					 P.velocidad_x=-P.velocidad_x; 
 				 }
 			}
@@ -239,7 +302,7 @@ public class TableroEarBall extends Container  {
 		
 		//proyectil P
 		for (Proyectil P : this.Proyectiles){
-			System.out.println(this.toString());
+			//System.out.println(this.toString());
 			P.pintame(g);
 			
 		}
