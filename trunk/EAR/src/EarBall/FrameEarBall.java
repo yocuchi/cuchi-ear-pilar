@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -134,6 +135,14 @@ public class FrameEarBall extends Container  {
 		 
 	}
 
+	
+private void accion_saque() {
+		
+		
+		this.Tab.nuevaPartida();
+	}
+
+	
 
 	public static void main(String[] args) throws Exception{
 		
@@ -182,14 +191,7 @@ public class FrameEarBall extends Container  {
 		}
 
 	
-	private void accion_saque() {
-		// TODO Auto-generated method stub
-		
-		//AQUI EL BAKALO
-		this.Tab = new TableroEarBall(Tab.P[0], Tab.P[1],Ancho,Alto,Ancho_tank,Alto_tank);
-		
-	}
-
+	
 
 	private void SecuenciaInicio() throws Exception {
 		// TODO Auto-generated method stub
