@@ -11,24 +11,29 @@ public class BallToli extends BallPlayer {
 	
 	
 	@Override
-	public Point2D muevete(Proyectil[] Proyectiles, Muro[] Muros,
+	public Point muevete(Proyectil[] Proyectiles, Muro[] Muros,
 			Point2D tu_posicion, Point2D su_posicion, boolean izquierda) {
 		// TODO Auto-generated method stub
 		Proyectil P = Proyectiles[0];
+		System.out.println(P.y + " vy "+ P.velocidad_y+ " this " + this.y);
 		if (P.y>this.y){
 			if (P.velocidad_y>0){//sube
+				
 				return new Point(0,10);
 			}else
+				
 			{//baja
 				return new Point(0,5);
 			}
 			
 		}else{
 			if (P.velocidad_y>0){//sube
-				return new Point(0,5);
+				
+				return new Point(0,-10);
 			}else
 			{//baja
-				return new Point(0,10);
+				System.out.println("Porque bajas!!!");
+				return new Point(0,-10);
 			}
 			
 		}
