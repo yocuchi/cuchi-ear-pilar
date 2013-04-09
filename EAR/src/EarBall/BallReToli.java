@@ -17,12 +17,7 @@ public class BallReToli extends BallPlayer {
 		
 	}
 
-	@Override
-	public int muevete(Proyectil[] Proyectiles, Muro[] Muros, int[] posiciones,
-			boolean izquierda) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 
 

@@ -8,6 +8,9 @@ import java.awt.Polygon;
 
 public abstract class ObjetoTablero {
 	double x,y;
+	
+	
+	
 	double Ancho,Alto;
 	boolean Explota;
 	

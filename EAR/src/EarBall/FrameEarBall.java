@@ -40,7 +40,7 @@ public class FrameEarBall extends Container  {
 	
 	TableroEarBall Tab;
 	
-	static int Ancho=500; //ancho del tablero
+	static int Ancho=800; //ancho del tablero
 	static int Alto=300; //alto del tablero
 	
 	static int Alto_tank=50;
@@ -51,7 +51,7 @@ public class FrameEarBall extends Container  {
 	
 	double Tiempo;
 	double Factor_tiempo=2; //factor para que vaya mas rapido
-	double intervalo=50; //ms por cada intervalo de reloj
+	double intervalo=100; //ms por cada intervalo de reloj
 	
 	
 	
@@ -184,6 +184,8 @@ public class FrameEarBall extends Container  {
 	
 	private void accion_saque() {
 		// TODO Auto-generated method stub
+		
+		//AQUI EL BAKALO
 		this.Tab = new TableroEarBall(Tab.P[0], Tab.P[1],Ancho,Alto,Ancho_tank,Alto_tank);
 		
 	}
@@ -230,9 +232,11 @@ public class FrameEarBall extends Container  {
 		u.espera((int)(intervalo/this.Factor_tiempo));
 		u.log("Segundo "+ df.format( this.Tiempo));
 		
-		
+		this.Tab.ejecutaTurno();
 		
 		this.Tiempo=this.Tiempo+ (double) this.intervalo/1000;
+		
+		
 		
 	}
 	

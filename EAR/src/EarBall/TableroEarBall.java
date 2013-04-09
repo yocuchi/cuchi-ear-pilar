@@ -50,7 +50,7 @@ public class TableroEarBall extends Container  {
 	double Tiempo;
 	double Factor_tiempo=2; //factor para que vaya mas rapido
 	double intervalo=50; //ms por cada intervalo de reloj
-	int max_move= 50; //numero de px que se puede mover por segundo
+	int max_move= 150; //numero de px que se puede mover por segundo
 	 
 	List<Proyectil> Proyectiles = new ArrayList<Proyectil>();
 	
@@ -149,25 +149,17 @@ public class TableroEarBall extends Container  {
 	}
 	
 
-
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
+	public void ejecutaTurno(){
 		
-		//pintamos los muros
-		for (Muro m : this.Muros){
-			m.pintame(g);
-		}
 		
-		//pintamos las porterias
-		for (Porteria p : this.Porterias){
-			p.pintame(g);
-		}
-
 		
-		//proyectil P
 		for (Proyectil P : this.Proyectiles){
+			
+			System.out.println(P);
+			System.out.println(this.toString());
 			P.mueve((int) this.intervalo );
+			System.out.println(P);
+			
 			
 			//Colision con muros
 			for (int m=0; m<this.Muros.size() ;m++){
@@ -182,19 +174,38 @@ public class TableroEarBall extends Container  {
 			for (int m=0; m<this.P.length ;m++){
 				n--;
 				BallPlayer p1 = this.P[m];
-				p1.muevete(this.getCopiaProyectiles(), this.getCopiaMuros(), this.posiciones[m], this.posiciones[n], (m==0));
+				Point mueve=(Point) p1.muevete(this.getCopiaProyectiles(), 
+						this.getCopiaMuros(), 
+						this.posiciones[m], 
+						this.posiciones[n], 
+						(m==0));
+				
+				//System.out.println(mueve);
+				
+				//Guardo las posiciones viejas
+				Point old_posciciones=this.posiciones[m];
+				//avanzo las nuevas
+				posiciones[m].setLocation(posiciones[m].getX()+ mueve.getX(), 
+						posiciones[m].getY()+mueve.getY());
+				
+				
 				//controlo que no se salgan
 				boolean colision=false;
 				for (int mu=0; mu<this.Muros.size() ;mu++){
 					Muro m1 = this.Muros.get(mu);
 					 if (p1.Colision(m1)){
-						 p1.x=this.posiciones[m].getX();
-						 p1.y=this.posiciones[m].getY();
+						 //si colisiona con muro
+						 this.posiciones[m]=old_posciciones;
+						 System.out.println("PLAYER choco con muro");
 						 colision=true;
 					 }
 				}
+				
 				if (colision==false){
-					this.posiciones[m]=new Point((int)p1.getX(),(int)p1.getY());
+					//Actualizo los movimientos de los jugadores
+					p1.x=posiciones[m].getX();
+					p1.y=posiciones[m].getY();
+					
 				}
 				
 				
@@ -205,7 +216,32 @@ public class TableroEarBall extends Container  {
 			}
 			
 			
+			
+		}
+
+	}
+	
+
+	@Override
+	public void paint(Graphics g) {
+		//super.paint(g);
+		
+		//pintamos los muros
+		for (Muro m : this.Muros){
+			m.pintame(g);
+		}
+		
+		//pintamos las porterias
+		for (Porteria p : this.Porterias){
+			p.pintame(g);
+		}
+
+		
+		//proyectil P
+		for (Proyectil P : this.Proyectiles){
+			System.out.println(this.toString());
 			P.pintame(g);
+			
 		}
 
 		
@@ -214,60 +250,7 @@ public class TableroEarBall extends Container  {
 		//pintamos los Jugadors
 		pintajugadores(g);
 		
-		//pintamos  y movemos los proyectiles
-		//Muevo los proyectiles
-		/*
-		for (int p1=0;p1<this.Proyectiles.size();p1++){
-			Proyectil v = this.Proyectiles.get(p1);
-			v.pintame(g);
-			v.mueve((int) this.intervalo );
-			
-			boolean boom = false;
-			
-			//colision con Jugadores
-			int otro_j=1;
-			for (int j=0; (j<this.P.length) && (boom==false);j++){
-				
-				 if (v.Colision(P[j])){
-					  v.Explota(g);
-					  // OJOOOO  Victorias[otro_j]++;
-					  this.Vencedor=P[otro_j];  
-					  this.Proyectiles.remove(v);
-					  p1++;boom=true;
-					  //this.fin=true;
-					  return;
-				  }
-				 otro_j--;
-			}
-			
-			
-			//colision con otros proyectiles, solo explotan los de un mismo tanke
-			for (int p2=0; (p2<this.Proyectiles.size()) && (boom==false);p2++){
-				Proyectil v2 = this.Proyectiles.get(p2);
-				 if (v.Colision(v2) && p2!=p1 && v.Lanzador.equals(v2.Lanzador)){
-					  v.Explota(g);
-					  v2.Explota(g);
-					  this.Proyectiles.remove(v);
-					  this.Proyectiles.remove(v2);
-					  p2++;p1++;boom=true;
-					  u.log("BOOM");
-				  }
-			}
-			//colision con muross
-			for (int m=0; (m<this.Muros.size()) && (boom==false);m++){
-				Muro m1 = this.Muros.get(m);
-				 if (v.Colision(m1)){
-					  v.Explota(g);
-					  
-					  this.Proyectiles.remove(v);
-					  p1++;boom=true;
-				  }
-			}
-			
 		
-			
-		}
-		*/
 				
 		
 		
