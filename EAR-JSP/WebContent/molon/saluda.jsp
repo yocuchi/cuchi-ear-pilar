@@ -10,17 +10,17 @@
 <%-- This is a JSP Comment before JSP Scriplet --%>
 <%
 	
-if (session.getAttribute("login") != null){
-		out.println("HOLA "+session.getAttribute( "login" )+"<br/>");	
+if (session.getAttribute("Nombre") != null){
+		out.println("HOLA "+session.getAttribute("Nombre")+"<br/>");	
 }
 else{
 	out.println("No has hecho login!!!");	
 }
-	
+
 		
 
 
-%>
- 
+%><img src="chuck">
+
 </body>
 </html>
