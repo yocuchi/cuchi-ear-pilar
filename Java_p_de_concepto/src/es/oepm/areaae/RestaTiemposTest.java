@@ -1,3 +1,4 @@
+package es.oepm.areaae;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
