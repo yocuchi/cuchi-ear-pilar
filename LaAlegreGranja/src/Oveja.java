@@ -2,7 +2,7 @@
 public class Oveja extends Animal {
 	
 	public String Golpea(){
-		return "BEEE te a la mierda";
+		return "BEEE te a la mierda feo";
 	}
 	public void Alimentar(String Alimento ){
 		
